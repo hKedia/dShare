@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import factory from "../ethereum/factory";
+import Layout from "../components/Layout";
 
 class FileIndex extends Component {
   static async getInitialProps() {
@@ -10,7 +11,11 @@ class FileIndex extends Component {
 
   render() {
     console.log(this.props.files);
-    return <h1>Index Page</h1>;
+    return (
+      <Layout>
+        <h1>Index</h1>
+      </Layout>
+    );
   }
 }
 

@@ -3,7 +3,7 @@ import FileFactory from "./build/FileFactory.json";
 
 const instance = new web3.eth.Contract(
   JSON.parse(FileFactory.interface),
-  "0x4FE94117446B3A4203Df678C5d9E4df6d9aF2fD9"
+  "0xe8FD9E0A4D5278F0169Ba00Fcb9B9815D7F7d767"
 );
 
 export default instance;

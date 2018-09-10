@@ -3,8 +3,8 @@ pragma solidity ^0.4.24;
 contract FileFactory {
     address[] public deployedFiles;
     
-    function createFile(string ipfsHash) public {
-        address newFile = new File(ipfsHash, msg.sender);
+    function createFile(bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
+        address newFile = new File(_digest, _hashFunction, _size, msg.sender);
         deployedFiles.push(newFile);
     }
     
@@ -15,7 +15,13 @@ contract FileFactory {
 
 contract File {
     address public manager;
-    string fileIpfsHash;
+    struct Multihash {
+        bytes32 digest;
+        uint8 hashFunction;
+        uint8 size;
+    }
+  
+    Multihash ipfsHash;
     
     mapping(address => bool) shared;
     
@@ -24,8 +30,8 @@ contract File {
         _;
     }
     
-    constructor(string ipfsHash, address creator) public {
-        fileIpfsHash = ipfsHash;
+    constructor (bytes32 _digest, uint8 _hashFunction, uint8 _size, address creator) public {
+        ipfsHash = Multihash(_digest, _hashFunction, _size);
         manager = creator;
     }
     
@@ -33,8 +39,12 @@ contract File {
         shared[recipient] = true;
     }
     
-    function getFile() public view returns (string){
+    function getSharedFile() public view returns (bytes32 _digest, uint8 _hashFunction, uint8 _size){
         require(shared[msg.sender]);
-        return fileIpfsHash;
+        return (ipfsHash.digest, ipfsHash.hashFunction, ipfsHash.size);
+    }
+    
+    function getFile() public view restricted returns (bytes32 _digest, uint8 _hashFunction, uint8 _size){
+        return (ipfsHash.digest, ipfsHash.hashFunction, ipfsHash.size);
     }
 }
