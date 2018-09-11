@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Dimmer, Loader, Segment } from "semantic-ui-react";
+import { Card, Loader } from "semantic-ui-react";
 import Link from "next/link";
 import factory from "../ethereum/factory";
 import web3 from "../ethereum/web3";
@@ -23,7 +23,9 @@ class FileList extends Component {
       return {
         header: address,
         description: (
-          <Link href={{ query: { name: address } }}>
+          <Link
+            href={{ pathname: "/files/view", query: { fileContract: address } }}
+          >
             <a>View File</a>
           </Link>
         ),
