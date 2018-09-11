@@ -36,7 +36,7 @@ class FileUpload extends Component {
       const accounts = await web3.eth.getAccounts();
 
       // uploading file to ipfs
-      await ipfs.add(this.state.buffer, (err, ipfsHash) => {
+      await ipfs.files.add(this.state.buffer, (err, ipfsHash) => {
         console.log(err, ipfsHash);
         this.setState({ ipfsHash: ipfsHash[0].hash });
       });
@@ -44,6 +44,8 @@ class FileUpload extends Component {
       const { digest, hashFunction, size } = getBytes32FromMultiash(
         this.state.ipfsHash
       );
+
+      console.log(digest, hashFunction, size);
 
       await factory.methods.createFile(digest, hashFunction, size).send({
         from: accounts[0]
