@@ -13,7 +13,9 @@ class FileList extends Component {
   componentDidMount = async () => {
     this.setState({ loadingFiles: true });
     const accounts = await web3.eth.getAccounts();
-    const files = await factory.methods.getMyFiles(accounts[0]).call();
+    const files = await factory.methods
+      .getMyFiles()
+      .call({ from: accounts[0] });
     this.setState({ files: files, loadingFiles: false });
   };
 

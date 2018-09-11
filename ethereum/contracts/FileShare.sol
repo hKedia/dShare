@@ -9,16 +9,16 @@ contract FileFactory {
         deployedFiles[msg.sender].push(newFile);
     }
     
-    function getMyFiles(address sender) public view returns(address[]) {
-        return deployedFiles[sender];
+    function getMyFiles() public view returns(address[]) {
+        return deployedFiles[msg.sender];
     }
     
     function updateSharedFiles(address recipient, address file) public {
         sharedFiles[recipient].push(file);
     }
     
-    function getSharedFiles(address sender) public view returns(address[]) {
-        return sharedFiles[sender];
+    function getSharedFiles() public view returns(address[]) {
+        return sharedFiles[msg.sender];
     }
 }
 
