@@ -10,7 +10,8 @@ class FileUpload extends Component {
   state = {
     buffer: "",
     ipfsHash: null,
-    loading: false
+    loading: false,
+    sha256hash: null
   };
 
   captureFile = event => {
@@ -27,6 +28,46 @@ class FileUpload extends Component {
   convertToBuffer = async reader => {
     const buffer = await Buffer.from(reader.result);
     this.setState({ buffer });
+    console.log(this.state.buffer);
+    this.generateSHA256Digest();
+  };
+
+  convertArrayBufferToHexaDecimal = buffer => {
+    var data_view = new DataView(buffer);
+    var iii,
+      len,
+      hex = "",
+      c;
+
+    for (iii = 0, len = data_view.byteLength; iii < len; iii += 1) {
+      c = data_view.getUint8(iii).toString(16);
+      if (c.length < 2) {
+        c = "0" + c;
+      }
+
+      hex += c;
+    }
+
+    return hex;
+  };
+
+  generateSHA256Digest = () => {
+    window.crypto.subtle
+      .digest(
+        {
+          name: "SHA-256"
+        },
+        this.state.buffer //The data you want to hash as an ArrayBuffer
+      )
+      .then(hash =>
+        this.setState({
+          sha256hash: this.convertArrayBufferToHexaDecimal(hash)
+        })
+      )
+      .catch(function(err) {
+        console.error(err);
+      });
+    console.log("SHA-256 Hash" + this.state.sha256hash);
   };
 
   onSubmit = async event => {
