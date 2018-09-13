@@ -8,7 +8,6 @@ class FileView extends Component {
     return { fileContract };
   }
   render() {
-    console.log(this.props.fileContract);
     return (
       <Layout>
         <FileDetail address={this.props.fileContract} />

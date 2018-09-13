@@ -7,7 +7,8 @@ import { getMultihashFromBytes32 } from "../lib/multihash";
 
 class FileDetail extends Component {
   state = {
-    ipfsHash: ""
+    ipfsHash: "",
+    fileName: ""
   };
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();
@@ -20,14 +21,11 @@ class FileDetail extends Component {
       hashFunction: returnedHash[1],
       size: returnedHash[2]
     };
-    console.log(ipfsHash);
+    console.log("ipfs", ipfsHash);
     this.setState({ ipfsHash: getMultihashFromBytes32(ipfsHash) });
 
     ipfs.files.get(this.state.ipfsHash, function(err, files) {
-      files.forEach(file => {
-        console.log(file.path);
-        console.log(file.content);
-      });
+      console.log("files", files);
     });
   };
   render() {
@@ -42,7 +40,7 @@ class FileDetail extends Component {
         <Table.Body>
           <Table.Row>
             <Table.Cell>Name</Table.Cell>
-            <Table.Cell>file name</Table.Cell>
+            <Table.Cell>{this.state.fileName}</Table.Cell>
           </Table.Row>
 
           <Table.Row>

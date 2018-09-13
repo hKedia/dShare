@@ -5,19 +5,22 @@ import web3 from "../../ethereum/web3";
 import ipfs from "../../ethereum/ipfs";
 import factory from "../../ethereum/factory";
 import { getBytes32FromMultiash } from "../../lib/multihash";
+import { createTimeStamp } from "../../utils/OriginStamp";
+import { sha256 } from "../../utils/sha256";
 
 class FileUpload extends Component {
   state = {
     buffer: "",
-    ipfsHash: null,
+    ipfsHash: "",
     loading: false,
-    sha256hash: null
+    fileName: ""
   };
 
   captureFile = event => {
     event.stopPropagation();
     event.preventDefault();
     const file = event.target.files[0];
+    this.setState({ fileName: file.name });
     let reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => {
@@ -28,73 +31,50 @@ class FileUpload extends Component {
   convertToBuffer = async reader => {
     const buffer = await Buffer.from(reader.result);
     this.setState({ buffer });
-    console.log(this.state.buffer);
-    this.generateSHA256Digest();
   };
 
-  convertArrayBufferToHexaDecimal = buffer => {
-    var data_view = new DataView(buffer);
-    var iii,
-      len,
-      hex = "",
-      c;
+  createFile = async ipfsHash => {
+    const { digest, hashFunction, size } = getBytes32FromMultiash(ipfsHash);
+    console.log(`digest:${digest}  hashFunction:${hashFunction} size:${size}`);
 
-    for (iii = 0, len = data_view.byteLength; iii < len; iii += 1) {
-      c = data_view.getUint8(iii).toString(16);
-      if (c.length < 2) {
-        c = "0" + c;
-      }
+    const accounts = await web3.eth.getAccounts();
 
-      hex += c;
-    }
+    await factory.methods.createFile(digest, hashFunction, size).send({
+      from: accounts[0]
+    });
 
-    return hex;
-  };
-
-  generateSHA256Digest = () => {
-    window.crypto.subtle
-      .digest(
-        {
-          name: "SHA-256"
-        },
-        this.state.buffer //The data you want to hash as an ArrayBuffer
-      )
-      .then(hash =>
-        this.setState({
-          sha256hash: this.convertArrayBufferToHexaDecimal(hash)
-        })
-      )
-      .catch(function(err) {
-        console.error(err);
-      });
-    console.log("SHA-256 Hash" + this.state.sha256hash);
+    this.setState({ loading: false });
   };
 
   onSubmit = async event => {
     event.preventDefault();
-    try {
-      this.setState({ loading: true });
-      const accounts = await web3.eth.getAccounts();
 
-      // uploading file to ipfs
-      await ipfs.files.add(this.state.buffer, (err, ipfsHash) => {
-        console.log(err, ipfsHash);
-        this.setState({ ipfsHash: ipfsHash[0].hash });
+    this.setState({ loading: true });
+
+    // get the sha256 hash of file
+    const sha256hash = await sha256(this.state.buffer);
+    console.log(sha256hash);
+
+    // create timestamp
+    const fileTimestamp = await createTimeStamp(sha256hash, "a@b.com");
+    console.log(fileTimestamp.data);
+
+    // uploading file to ipfs
+    const data = {
+      path: `/${this.state.fileName}`,
+      content: this.state.buffer
+    };
+
+    await ipfs.files.add(data, (err, res) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log(res);
+      this.setState({ ipfsHash: res[0].hash }, () => {
+        this.createFile(this.state.ipfsHash);
       });
-
-      const { digest, hashFunction, size } = getBytes32FromMultiash(
-        this.state.ipfsHash
-      );
-
-      console.log(digest, hashFunction, size);
-
-      await factory.methods.createFile(digest, hashFunction, size).send({
-        from: accounts[0]
-      });
-      this.setState({ loading: false });
-    } catch (err) {
-      this.setState({ loading: false });
-    }
+    });
   };
 
   render() {
