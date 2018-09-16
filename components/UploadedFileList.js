@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Card, Loader } from "semantic-ui-react";
-import Link from "next/link";
+import { Loader } from "semantic-ui-react";
 import factory from "../ethereum/factory";
 import web3 from "../ethereum/web3";
+import { renderFiles } from "./renderFiles";
+import NoFilesFound from "./NoFilesFound";
 
-class FileList extends Component {
+class UploadedFileList extends Component {
   state = {
     loadingFiles: false,
     files: []
@@ -19,32 +20,15 @@ class FileList extends Component {
     this.setState({ files: files, loadingFiles: false });
   };
 
-  renderFiles() {
-    console.log(this.state.files);
-    const items = this.state.files.map(address => {
-      return {
-        header: address,
-        description: (
-          <Link
-            href={{ pathname: "/files/view", query: { fileContract: address } }}
-          >
-            <a>View File</a>
-          </Link>
-        ),
-        fluid: true
-      };
-    });
-    return <Card.Group items={items} />;
-  }
-
   render() {
     return (
       <div>
-        {this.renderFiles()}
+        {renderFiles(this.state.files)}
         <Loader active={this.state.loadingFiles} inline="centered" />
+        <NoFilesFound hidden={!!this.state.files.length} />
       </div>
     );
   }
 }
 
-export default FileList;
+export default UploadedFileList;

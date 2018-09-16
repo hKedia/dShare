@@ -1,15 +1,21 @@
 import React, { Component } from "react";
-import factory from "../ethereum/factory";
 import Layout from "../components/Layout";
-import web3 from "../ethereum/web3";
-import FileList from "../components/FileList";
+import UploadedFileList from "../components/UploadedFileList";
+import SharedFileList from "../components/SharedFileList";
+import { Segment } from "semantic-ui-react";
 
 class FileIndex extends Component {
   render() {
     return (
       <Layout>
-        <h3>My Uploaded Files</h3>
-        <FileList />
+        <Segment>
+          <h3>Files Uploaded by me</h3>
+          <UploadedFileList />
+        </Segment>
+        <Segment>
+          <h3>Files Shared with me</h3>
+          <SharedFileList />
+        </Segment>
       </Layout>
     );
   }
