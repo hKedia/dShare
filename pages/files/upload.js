@@ -7,6 +7,7 @@ import factory from "../../ethereum/factory";
 import { getBytes32FromMultiash } from "../../lib/multihash";
 import { createTimeStamp } from "../../utils/OriginStamp";
 import { sha256 } from "../../utils/sha256";
+import { encrypt } from "../../components/crypto";
 
 class FileUpload extends Component {
   state = {
@@ -53,28 +54,35 @@ class FileUpload extends Component {
 
     // get the sha256 hash of file
     const sha256hash = await sha256(this.state.buffer);
-    console.log(sha256hash);
+    console.log("sha256hash", sha256hash);
 
     // create timestamp
-    const fileTimestamp = await createTimeStamp(sha256hash, "a@b.com");
-    console.log(fileTimestamp.data);
+    // const fileTimestamp = await createTimeStamp(sha256hash, "a@b.com");
+    // console.log(fileTimestamp.data);
+
+    // encrypt the file
+    const { data, iv, key } = await encrypt(this.state.buffer);
+    console.log(data, iv, key);
+
+    const keyData = await window.crypto.subtle.exportKey("jwk", key);
+    console.log(keyData);
 
     // uploading file to ipfs
-    const data = {
-      path: `/${this.state.fileName}`,
-      content: this.state.buffer
-    };
+    // const data = {
+    //   path: `/${this.state.fileName}`,
+    //   content: this.state.buffer
+    // };
 
-    await ipfs.files.add(data, (err, res) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      console.log(res);
-      this.setState({ ipfsHash: res[0].hash }, () => {
-        this.createFile(this.state.ipfsHash);
-      });
-    });
+    // await ipfs.files.add(data, (err, res) => {
+    //   if (err) {
+    //     console.error(err);
+    //     return;
+    //   }
+    //   console.log(res);
+    //   this.setState({ ipfsHash: res[0].hash }, () => {
+    //     this.createFile(this.state.ipfsHash);
+    //   });
+    // });
   };
 
   render() {
