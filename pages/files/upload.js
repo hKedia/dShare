@@ -8,20 +8,22 @@ import { getBytes32FromMultiash } from "../../lib/multihash";
 import { createTimeStamp } from "../../utils/OriginStamp";
 import { sha256 } from "../../utils/sha256";
 import { encrypt } from "../../components/crypto";
+import Router from "next/router";
 
 class FileUpload extends Component {
   state = {
     buffer: "",
     ipfsHash: "",
     loading: false,
-    fileName: ""
+    fileName: "",
+    fileType: ""
   };
 
   captureFile = event => {
     event.stopPropagation();
     event.preventDefault();
     const file = event.target.files[0];
-    this.setState({ fileName: file.name });
+    this.setState({ fileName: file.name, fileType: file.type });
     let reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => {
@@ -45,6 +47,7 @@ class FileUpload extends Component {
     });
 
     this.setState({ loading: false });
+    Router.push("/");
   };
 
   onSubmit = async event => {
@@ -71,14 +74,25 @@ class FileUpload extends Component {
     const keyData = await window.crypto.subtle.exportKey("jwk", key);
     console.log(keyData);
 
+    const ipfsPayload = [
+      {
+        path: `/tmp/${this.state.fileName}`,
+        content: Buffer.from(data_iv)
+      },
+      {
+        path: "/tmp/key",
+        content: Buffer.from(JSON.stringify(keyData))
+      }
+    ];
+
     // uploading file to ipfs
-    await ipfs.files.add(Buffer.from(data_iv), (err, res) => {
+    await ipfs.files.add(ipfsPayload, (err, res) => {
       if (err) {
         console.error(err);
         return;
       }
       console.log(res);
-      this.setState({ ipfsHash: res[0].hash }, () => {
+      this.setState({ ipfsHash: res[2].hash }, () => {
         this.createFile(this.state.ipfsHash);
       });
     });
