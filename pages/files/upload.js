@@ -51,38 +51,37 @@ class FileUpload extends Component {
     event.preventDefault();
 
     this.setState({ loading: true });
-
+    console.log("state.buffer", this.state.buffer);
     // get the sha256 hash of file
     const sha256hash = await sha256(this.state.buffer);
     console.log("sha256hash", sha256hash);
 
     // create timestamp
-    // const fileTimestamp = await createTimeStamp(sha256hash, "a@b.com");
-    // console.log(fileTimestamp.data);
+    const fileTimestamp = await createTimeStamp(sha256hash, "a@b.com");
+    console.log(fileTimestamp.data);
 
     // encrypt the file
     const { data, iv, key } = await encrypt(this.state.buffer);
-    console.log(data, iv, key);
+    const dataArray = new Uint8Array(data);
+    console.log(dataArray);
+
+    //combine the data and random value
+    const data_iv = new Uint8Array([...dataArray, ...iv]);
 
     const keyData = await window.crypto.subtle.exportKey("jwk", key);
     console.log(keyData);
 
     // uploading file to ipfs
-    // const data = {
-    //   path: `/${this.state.fileName}`,
-    //   content: this.state.buffer
-    // };
-
-    // await ipfs.files.add(data, (err, res) => {
-    //   if (err) {
-    //     console.error(err);
-    //     return;
-    //   }
-    //   console.log(res);
-    //   this.setState({ ipfsHash: res[0].hash }, () => {
-    //     this.createFile(this.state.ipfsHash);
-    //   });
-    // });
+    await ipfs.files.add(Buffer.from(data_iv), (err, res) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log(res);
+      this.setState({ ipfsHash: res[0].hash }, () => {
+        this.createFile(this.state.ipfsHash);
+      });
+    });
   };
 
   render() {
