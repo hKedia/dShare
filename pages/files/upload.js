@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Layout from "../../components/Layout";
-import { Form, Button, Input, Divider } from "semantic-ui-react";
+import { Form, Button, Input, Icon } from "semantic-ui-react";
 import web3 from "../../ethereum/web3";
 import ipfs from "../../ethereum/ipfs";
 import factory from "../../ethereum/factory";
@@ -15,7 +15,9 @@ class FileUpload extends Component {
     buffer: "",
     ipfsHash: "",
     loading: false,
-    fileName: ""
+    fileName: "",
+    email: "",
+    account: ""
   };
 
   captureFile = event => {
@@ -39,10 +41,8 @@ class FileUpload extends Component {
     const { digest, hashFunction, size } = getBytes32FromMultiash(ipfsHash);
     console.log(`digest:${digest}  hashFunction:${hashFunction} size:${size}`);
 
-    const accounts = await web3.eth.getAccounts();
-
     await factory.methods.createFile(digest, hashFunction, size).send({
-      from: accounts[0]
+      from: this.state.account
     });
 
     this.setState({ loading: false });
@@ -54,13 +54,19 @@ class FileUpload extends Component {
 
     this.setState({ loading: true });
 
+    // get default account
+    const accounts = await web3.eth.getAccounts();
+    this.setState({ account: accounts[0] });
+    console.log("account", this.state.account);
+
     // get the sha256 hash of file
     const sha256hash = await sha256(this.state.buffer);
     console.log("sha256hash", sha256hash);
 
     // create timestamp
-    const fileTimestamp = await createTimeStamp(sha256hash, "a@b.com");
-    console.log(fileTimestamp.data);
+    const fileTimestamp = await createTimeStamp(sha256hash, this.state.email);
+    console.log("email", this.state.email);
+    console.log("timestamp", fileTimestamp.data);
 
     // encrypt the file
     const { data, iv, key } = await encrypt(this.state.buffer);
@@ -81,7 +87,7 @@ class FileUpload extends Component {
         content: Buffer.from(data_iv)
       },
       {
-        path: "/tmp/key",
+        path: `/tmp/${this.state.account}`,
         content: Buffer.from(JSON.stringify(keyData))
       }
     ];
@@ -104,9 +110,20 @@ class FileUpload extends Component {
       <Layout>
         <h3>Upload File</h3>
         <Form onSubmit={this.onSubmit}>
-          <Form.Field>
-            <Input type="file" onChange={this.captureFile} />
-          </Form.Field>
+          <Form.Group widths="equal">
+            <Form.Field>
+              <Input type="file" onChange={this.captureFile} />
+            </Form.Field>
+            <Form.Field>
+              <Input
+                type="text"
+                label="@"
+                placeholder="Emaild id to receive the timestamp details"
+                value={this.state.email}
+                onChange={event => this.setState({ email: event.target.value })}
+              />
+            </Form.Field>
+          </Form.Group>
           <Button primary loading={this.state.loading} type="submit">
             Upload to IPFS
           </Button>
