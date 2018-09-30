@@ -53,7 +53,7 @@ class FileUpload extends Component {
     event.preventDefault();
 
     this.setState({ loading: true });
-    console.log("state.buffer", this.state.buffer);
+
     // get the sha256 hash of file
     const sha256hash = await sha256(this.state.buffer);
     console.log("sha256hash", sha256hash);
@@ -70,9 +70,11 @@ class FileUpload extends Component {
     //combine the data and random value
     const data_iv = new Uint8Array([...dataArray, ...iv]);
 
+    //encryption key in JSON
     const keyData = await window.crypto.subtle.exportKey("jwk", key);
     console.log(keyData);
 
+    //Contruct the data to be uploaded to ipfs
     const ipfsPayload = [
       {
         path: `/tmp/${this.state.fileName}`,
@@ -92,7 +94,7 @@ class FileUpload extends Component {
       }
       console.log(res);
       this.setState({ ipfsHash: res[2].hash }, () => {
-        this.createFile(this.state.ipfsHash);
+        this.createFile(this.state.ipfsHash); // save the hash of directory in contract
       });
     });
   };
