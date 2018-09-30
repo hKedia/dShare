@@ -13,7 +13,7 @@ import Router from "next/router";
 class FileUpload extends Component {
   state = {
     buffer: "",
-    ipfsHash: "",
+    fileIpfsHash: "",
     loading: false,
     fileName: "",
     email: "",
@@ -37,8 +37,8 @@ class FileUpload extends Component {
     this.setState({ buffer });
   };
 
-  createFile = async ipfsHash => {
-    const { digest, hashFunction, size } = getBytes32FromMultiash(ipfsHash);
+  createFile = async fileIpfsHash => {
+    const { digest, hashFunction, size } = getBytes32FromMultiash(fileIpfsHash);
     console.log(`digest:${digest}  hashFunction:${hashFunction} size:${size}`);
 
     await factory.methods.createFile(digest, hashFunction, size).send({
@@ -99,8 +99,8 @@ class FileUpload extends Component {
         return;
       }
       console.log(res);
-      this.setState({ ipfsHash: res[2].hash }, () => {
-        this.createFile(this.state.ipfsHash); // save the hash of directory in contract
+      this.setState({ fileIpfsHash: res[2].hash }, () => {
+        this.createFile(this.state.fileIpfsHash); // save the hash of directory in contract
       });
     });
   };
