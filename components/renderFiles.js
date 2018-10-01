@@ -12,7 +12,8 @@ export function renderFiles(files) {
           <a>View File</a>
         </Link>
       ),
-      fluid: true
+      fluid: true,
+      key: address
     };
   });
   return <Card.Group items={items} />;

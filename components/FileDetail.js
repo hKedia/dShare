@@ -10,24 +10,28 @@ class FileDetail extends Component {
     ipfsHash: "",
     fileName: ""
   };
+
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();
     const fileInstance = File(this.props.address);
     const returnedHash = await fileInstance.methods.getFileDetail().call({
       from: accounts[0]
     });
+
     const ipfsHash = {
       digest: returnedHash[0],
       hashFunction: returnedHash[1],
       size: returnedHash[2]
     };
+
     console.log("ipfs", ipfsHash);
     this.setState({ ipfsHash: getMultihashFromBytes32(ipfsHash) });
 
-    ipfs.files.get(this.state.ipfsHash, function(err, files) {
-      console.log("files", files);
+    await ipfs.files.get(this.state.ipfsHash, (err, files) => {
+      this.setState({ fileName: files[2].path.split("/").pop() });
     });
   };
+
   render() {
     return (
       <Table celled striped>
@@ -50,7 +54,11 @@ class FileDetail extends Component {
 
           <Table.Row>
             <Table.Cell>IPFS Hash</Table.Cell>
-            <Table.Cell>{this.state.ipfsHash}</Table.Cell>
+            <Table.Cell>
+              <a href={"https://gateway.ipfs.io/ipfs/" + this.state.ipfsHash}>
+                {this.state.ipfsHash}
+              </a>
+            </Table.Cell>
           </Table.Row>
         </Table.Body>
       </Table>
