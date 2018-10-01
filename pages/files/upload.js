@@ -9,6 +9,8 @@ import { createTimeStamp } from "../../utils/OriginStamp";
 import { sha256 } from "../../utils/sha256";
 import { encrypt } from "../../components/crypto";
 import Router from "next/router";
+import ethUtil from "ethereumjs-util";
+import EthCrypto from "eth-crypto";
 
 class FileUpload extends Component {
   state = {
@@ -71,14 +73,35 @@ class FileUpload extends Component {
     // encrypt the file
     const { data, iv, key } = await encrypt(this.state.buffer);
     const dataArray = new Uint8Array(data);
-    console.log(dataArray);
+    console.log("dataArray", dataArray);
 
     //combine the data and random value
     const data_iv = new Uint8Array([...dataArray, ...iv]);
+    console.log("data_iv", data_iv);
 
     //encryption key in JSON
     const keyData = await window.crypto.subtle.exportKey("jwk", key);
-    console.log(keyData);
+    console.log("keyData", keyData);
+
+    // getting the public key
+    const message = web3.utils.sha3("Upload");
+    const signature = await web3.eth.sign(message, this.state.account);
+    const { v, r, s } = ethUtil.fromRpcSig(signature);
+    const publicKeyAsBuffer = ethUtil.ecrecover(
+      ethUtil.toBuffer(message),
+      v,
+      r,
+      s
+    );
+    const publicKey = ethUtil.bufferToHex(publicKeyAsBuffer).slice(2);
+    console.log("publicKey", publicKey);
+
+    //encrypt the document key with user's ethereum public key
+    const encryptedKey = await EthCrypto.encryptWithPublicKey(
+      publicKey,
+      Buffer.from(JSON.stringify(keyData))
+    );
+    console.log(encryptedKey);
 
     //Contruct the data to be uploaded to ipfs
     const ipfsPayload = [
@@ -88,7 +111,7 @@ class FileUpload extends Component {
       },
       {
         path: `/tmp/${this.state.account}`,
-        content: Buffer.from(JSON.stringify(keyData))
+        content: Buffer.from(JSON.stringify(encryptedKey))
       }
     ];
 

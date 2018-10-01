@@ -28,7 +28,7 @@ class FileDetail extends Component {
     this.setState({ ipfsHash: getMultihashFromBytes32(ipfsHash) });
 
     await ipfs.files.get(this.state.ipfsHash, (err, files) => {
-      this.setState({ fileName: files[1].path.split("/").pop() });
+      this.setState({ fileName: files[2].path.split("/").pop() });
     });
   };
 

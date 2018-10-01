@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "bs58": "^4.0.1",
+    "eth-crypto": "^1.2.4",
+    "ethereumjs-util": "^5.2.0",
     "firebase": "^5.5.2",
     "fs-extra": "^7.0.0",
     "ganache-cli": "^6.1.8",
