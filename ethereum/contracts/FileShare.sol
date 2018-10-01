@@ -32,9 +32,11 @@ contract File {
   
   FileFactory ff;
   
-  Multihash ipfsHash;
+  Multihash fileIpfsHash;
+  Multihash keyIpfsHash;
     
     mapping(address => bool) shared;
+    mapping(address => Multihash) keyLocation;
     
     modifier restricted() {
         require(msg.sender == manager);
@@ -42,22 +44,24 @@ contract File {
     }
     
     constructor(bytes32 _digest, uint8 _hashFunction, uint8 _size, address creator, address factory) public {
-        ipfsHash = Multihash(_digest, _hashFunction, _size);
+        fileIpfsHash = Multihash(_digest, _hashFunction, _size);
         manager = creator;
         ff = FileFactory(factory);
     }
     
-    function shareFile(address recipient) public restricted {
+    function shareFile(address recipient, bytes32 _digest, uint8 _hashFunction, uint8 _size) public restricted {
+        keyIpfsHash = Multihash(_digest, _hashFunction, _size);
         shared[recipient] = true;
+        keyLocation[recipient] = keyIpfsHash;
         ff.updateSharedFiles(recipient, this);
     }
     
-    function getSharedFileDetail() public view returns (bytes32 _digest, uint8 _hashFunction, uint8 _size){
+    function getSharedFileDetail() public view returns (bytes32 , uint8 , uint8 , bytes32 , uint8 , uint8 ){
         require(shared[msg.sender]);
-        return (ipfsHash.digest, ipfsHash.hashFunction, ipfsHash.size);
+        return (fileIpfsHash.digest, fileIpfsHash.hashFunction, fileIpfsHash.size, keyLocation[msg.sender].digest, keyLocation[msg.sender].hashFunction, keyLocation[msg.sender].size);
     }
     
     function getFileDetail() public view restricted returns (bytes32 _digest, uint8 _hashFunction, uint8 _size){
-        return (ipfsHash.digest, ipfsHash.hashFunction, ipfsHash.size);
+        return (fileIpfsHash.digest, fileIpfsHash.hashFunction, fileIpfsHash.size);
     }
 }
