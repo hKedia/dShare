@@ -3,6 +3,7 @@ pragma solidity ^0.4.25;
 contract FileFactory {
     mapping(address => address[]) public deployedFiles;
     mapping(address => address[]) public sharedFiles;
+    mapping(address => address[]) public mySharedFiles;
     
     function createFile(bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
         address newFile = new File(_digest, _hashFunction, _size, msg.sender, this);
@@ -13,12 +14,17 @@ contract FileFactory {
         return deployedFiles[msg.sender];
     }
     
-    function updateSharedFiles(address recipient, address file) public {
+    function updateSharedFiles(address recipient, address file, address owner) public {
         sharedFiles[recipient].push(file);
+        mySharedFiles[owner].push(file);
     }
     
     function getSharedFiles() public view returns(address[]) {
         return sharedFiles[msg.sender];
+    }
+    
+    function getMySharedFiles() public view returns(address[]) {
+        return mySharedFiles[msg.sender];
     }
 }
 
@@ -33,7 +39,6 @@ contract File {
   FileFactory ff;
   
   Multihash fileIpfsHash;
-  Multihash keyIpfsHash;
     
     mapping(address => bool) shared;
     mapping(address => Multihash) keyLocation;
@@ -50,10 +55,9 @@ contract File {
     }
     
     function shareFile(address recipient, bytes32 _digest, uint8 _hashFunction, uint8 _size) public restricted {
-        keyIpfsHash = Multihash(_digest, _hashFunction, _size);
         shared[recipient] = true;
-        keyLocation[recipient] = keyIpfsHash;
-        ff.updateSharedFiles(recipient, this);
+        keyLocation[recipient] = Multihash(_digest, _hashFunction, _size);
+        ff.updateSharedFiles(recipient, this, msg.sender);
     }
     
     function getSharedFileDetail() public view returns (bytes32 , uint8 , uint8 , bytes32 , uint8 , uint8 ){
