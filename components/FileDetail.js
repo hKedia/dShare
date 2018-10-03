@@ -34,7 +34,7 @@ class FileDetail extends Component {
 
   render() {
     return (
-      <Table celled striped>
+      <Table celled striped fixed>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell colSpan="2">File Details</Table.HeaderCell>
@@ -44,17 +44,17 @@ class FileDetail extends Component {
         <Table.Body>
           <Table.Row>
             <Table.Cell>Name</Table.Cell>
-            <Table.Cell>{this.state.fileName}</Table.Cell>
+            <Table.Cell textAlign="right">{this.state.fileName}</Table.Cell>
           </Table.Row>
 
           <Table.Row>
             <Table.Cell>Deployed at</Table.Cell>
-            <Table.Cell>{this.props.address}</Table.Cell>
+            <Table.Cell textAlign="right">{this.props.address}</Table.Cell>
           </Table.Row>
 
           <Table.Row>
             <Table.Cell>IPFS Hash</Table.Cell>
-            <Table.Cell>
+            <Table.Cell textAlign="right">
               <a href={"https://gateway.ipfs.io/ipfs/" + this.state.ipfsHash}>
                 {this.state.ipfsHash}
               </a>

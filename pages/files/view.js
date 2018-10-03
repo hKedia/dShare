@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Layout from "../../components/Layout";
 import FileDetail from "../../components/FileDetail";
+import FileTimestampDetail from "../../components/FileTimestampDetail";
 
 class FileView extends Component {
   static async getInitialProps(props) {
@@ -11,6 +12,7 @@ class FileView extends Component {
     return (
       <Layout>
         <FileDetail address={this.props.fileContract} />
+        <FileTimestampDetail address={this.props.fileContract} />
       </Layout>
     );
   }
