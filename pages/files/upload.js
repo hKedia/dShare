@@ -39,13 +39,15 @@ class FileUpload extends Component {
     this.setState({ buffer });
   };
 
-  createFile = async fileIpfsHash => {
+  createFile = async (fileIpfsHash, sha256hash) => {
     const { digest, hashFunction, size } = getBytes32FromMultiash(fileIpfsHash);
     console.log(`digest:${digest}  hashFunction:${hashFunction} size:${size}`);
 
-    await factory.methods.createFile(digest, hashFunction, size).send({
-      from: this.state.account
-    });
+    await factory.methods
+      .createFile(digest, hashFunction, size, "0x" + sha256hash)
+      .send({
+        from: this.state.account
+      });
 
     this.setState({ loading: false });
     Router.push("/");
@@ -123,7 +125,7 @@ class FileUpload extends Component {
       }
       console.log(res);
       this.setState({ fileIpfsHash: res[2].hash }, () => {
-        this.createFile(this.state.fileIpfsHash); // save the hash of directory in contract
+        this.createFile(this.state.fileIpfsHash, sha256hash); // save the hash of directory in contract
       });
     });
   };

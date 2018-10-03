@@ -5,8 +5,8 @@ contract FileFactory {
     mapping(address => address[]) public sharedFiles;
     mapping(address => address[]) public mySharedFiles;
     
-    function createFile(bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
-        address newFile = new File(_digest, _hashFunction, _size, msg.sender, this);
+    function createFile(bytes32 _digest, uint8 _hashFunction, uint8 _size, bytes32 fileHash) public {
+        address newFile = new File(_digest, _hashFunction, _size, fileHash, msg.sender, this);
         deployedFiles[msg.sender].push(newFile);
     }
     
@@ -30,15 +30,18 @@ contract FileFactory {
 
 contract File {
     address public manager;
+    
+    bytes32 sha3hash;
+    
     struct Multihash {
         bytes32 digest;
         uint8 hashFunction;
         uint8 size;
-  }
+    }
   
-  FileFactory ff;
+    FileFactory ff;
   
-  Multihash fileIpfsHash;
+    Multihash fileIpfsHash;
     
     mapping(address => bool) shared;
     mapping(address => Multihash) keyLocation;
@@ -48,9 +51,10 @@ contract File {
         _;
     }
     
-    constructor(bytes32 _digest, uint8 _hashFunction, uint8 _size, address creator, address factory) public {
+    constructor(bytes32 _digest, uint8 _hashFunction, uint8 _size, bytes32 fileHash, address creator, address factory) public {
         fileIpfsHash = Multihash(_digest, _hashFunction, _size);
         manager = creator;
+        sha3hash = fileHash;
         ff = FileFactory(factory);
     }
     
@@ -67,5 +71,9 @@ contract File {
     
     function getFileDetail() public view restricted returns (bytes32 _digest, uint8 _hashFunction, uint8 _size){
         return (fileIpfsHash.digest, fileIpfsHash.hashFunction, fileIpfsHash.size);
+    }
+    
+    function getFileSha3Hash() public view returns (bytes32) {
+        return sha3hash;
     }
 }
