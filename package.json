@@ -12,6 +12,8 @@
   "dependencies": {
     "bs58": "^4.0.1",
     "eth-crypto": "^1.2.4",
+    "eth-sig-util": "^2.1.0",
+    "ethereumjs-tx": "^1.3.7",
     "ethereumjs-util": "^5.2.0",
     "firebase": "^5.5.2",
     "fs-extra": "^7.0.0",

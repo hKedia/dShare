@@ -11,6 +11,7 @@ import { encrypt } from "../../components/crypto";
 import Router from "next/router";
 import ethUtil from "ethereumjs-util";
 import EthCrypto from "eth-crypto";
+import db from "../../utils/firebase";
 
 class FileUpload extends Component {
   state = {
@@ -50,7 +51,7 @@ class FileUpload extends Component {
       });
 
     this.setState({ loading: false });
-    Router.push("/");
+    Router.push("/main");
   };
 
   onSubmit = async event => {
@@ -86,16 +87,8 @@ class FileUpload extends Component {
     console.log("keyData", keyData);
 
     // getting the public key
-    const message = web3.utils.sha3("Upload");
-    const signature = await web3.eth.sign(message, this.state.account);
-    const { v, r, s } = ethUtil.fromRpcSig(signature);
-    const publicKeyAsBuffer = ethUtil.ecrecover(
-      ethUtil.toBuffer(message),
-      v,
-      r,
-      s
-    );
-    const publicKey = ethUtil.bufferToHex(publicKeyAsBuffer).slice(2);
+    const snapshot = await db.ref("/users/" + this.state.account).once("value");
+    const publicKey = snapshot.val() && snapshot.val().public_key;
     console.log("publicKey", publicKey);
 
     //encrypt the document key with user's ethereum public key

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Segment, Header, Form, Button, Input } from "semantic-ui-react";
+import db from "../utils/firebase";
 
 class FileSharing extends Component {
   state = {
@@ -13,6 +14,14 @@ class FileSharing extends Component {
     console.log("recipient", this.state.recipient);
 
     this.setState({ loading: true });
+
+    const snapshot = await db
+      .ref("/users/" + this.state.recipient.toLowerCase())
+      .once("value");
+    const recipientPublicKey = snapshot.val() && snapshot.val().public_key;
+    console.log("recipientPublicKey", recipientPublicKey);
+
+    this.setState({ loading: false });
   };
   render() {
     return (

@@ -2,3 +2,4 @@ node_modules
 .next
 OriginStampApiKey.js
 wallet.config.js
+firebase.js
