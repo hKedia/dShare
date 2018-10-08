@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Loader } from "semantic-ui-react";
 import factory from "../ethereum/factory";
 import web3 from "../ethereum/web3";
-import { renderFiles } from "./renderFiles";
+import { renderSharedFiles } from "./renderFiles";
 import NoFilesFound from "./NoFilesFound";
 
 class SharedFileList extends Component {
@@ -23,7 +23,7 @@ class SharedFileList extends Component {
   render() {
     return (
       <div>
-        {renderFiles(this.state.files)}
+        {renderSharedFiles(this.state.files)}
         <Loader active={this.state.loadingFiles} inline="centered" />
         <NoFilesFound hidden={!!this.state.files.length} />
       </div>

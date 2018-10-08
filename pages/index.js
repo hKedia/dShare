@@ -47,7 +47,6 @@ class Index extends Component {
       });
       Router.push("/main");
     }
-    this.setState({ loading: false });
   };
 
   render() {

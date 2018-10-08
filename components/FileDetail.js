@@ -14,9 +14,16 @@ class FileDetail extends Component {
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();
     const fileInstance = File(this.props.address);
-    const returnedHash = await fileInstance.methods.getFileDetail().call({
-      from: accounts[0]
-    });
+    let returnedHash;
+    if (!this.props.shared) {
+      returnedHash = await fileInstance.methods.getFileDetail().call({
+        from: accounts[0]
+      });
+    } else {
+      returnedHash = await fileInstance.methods.getSharedFileDetail().call({
+        from: accounts[0]
+      });
+    }
 
     const ipfsHash = {
       digest: returnedHash[0],

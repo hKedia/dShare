@@ -50,8 +50,8 @@ class FileUpload extends Component {
         from: this.state.account
       });
 
-    this.setState({ loading: false });
     Router.push("/main");
+    this.setState({ loading: false });
   };
 
   onSubmit = async event => {
@@ -87,7 +87,9 @@ class FileUpload extends Component {
     console.log("keyData", keyData);
 
     // getting the public key
-    const snapshot = await db.ref("/users/" + this.state.account).once("value");
+    const snapshot = await db
+      .ref("/users/" + this.state.account.toLowerCase())
+      .once("value");
     const publicKey = snapshot.val() && snapshot.val().public_key;
     console.log("publicKey", publicKey);
 
