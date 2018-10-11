@@ -4,6 +4,7 @@ import FileDetail from "../../components/FileDetail";
 import FileTimestampDetail from "../../components/FileTimestampDetail";
 import FileSharing from "../../components/FileSharing";
 import { Segment } from "semantic-ui-react";
+import FileDownload from "../../components/FileDownload";
 
 class FileView extends Component {
   static async getInitialProps(props) {
@@ -18,7 +19,7 @@ class FileView extends Component {
     } else {
       fileSharingComponent = (
         <Segment>
-          <div>Sharing not allowed as you are no the owner</div>
+          <div>Sharing not allowed as you are not the owner</div>
         </Segment>
       );
     }
@@ -29,6 +30,10 @@ class FileView extends Component {
           shared={this.props.isShared}
         />
         <FileTimestampDetail address={this.props.fileContract} />
+        <FileDownload
+          address={this.props.fileContract}
+          shared={this.props.isShared}
+        />
         {fileSharingComponent}
       </Layout>
     );

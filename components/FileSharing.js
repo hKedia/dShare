@@ -18,7 +18,8 @@ class FileSharing extends Component {
     fileEncryptedkey: "",
     userPrivateKey: "",
     keyIpfsHash: "",
-    account: ""
+    account: "",
+    loading: false
   };
 
   componentDidMount = async () => {
@@ -38,7 +39,6 @@ class FileSharing extends Component {
     };
 
     this.setState({ fileIpfsHash: getMultihashFromBytes32(ipfsHash) });
-    console.log(`${this.state.fileIpfsHash}/${accounts[0]}`);
 
     // Retrive the encrypted key
     await ipfs.files.cat(

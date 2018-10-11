@@ -18,12 +18,10 @@ class FileTimestampDetail extends Component {
     const returnedHash = await fileInstance.methods.getFileSha3Hash().call({
       from: accounts[0]
     });
-    console.log("sha3hash", returnedHash.slice(2));
     this.setState({ sha3hash: returnedHash.slice(2) });
 
     const returnedData = await timestampStatus(this.state.sha3hash);
     const timestamp = returnedData.data.timestamps[0];
-    console.log("timestamp", timestamp);
 
     this.setState({
       message: getStatusMessage(timestamp.submit_status),
@@ -34,8 +32,6 @@ class FileTimestampDetail extends Component {
       const date = new Date(timestamp.timestamp);
       this.setState({ timestamp: date.toUTCString() });
     }
-    console.log("Timestamp Status:", this.state.message);
-    console.log("Date", new Date(timestamp.timestamp));
   };
 
   render() {

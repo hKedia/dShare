@@ -30,8 +30,6 @@ class FileDetail extends Component {
       hashFunction: returnedHash[1],
       size: returnedHash[2]
     };
-
-    console.log("ipfs", ipfsHash);
     this.setState({ ipfsHash: getMultihashFromBytes32(ipfsHash) });
 
     await ipfs.files.get(this.state.ipfsHash, (err, files) => {
