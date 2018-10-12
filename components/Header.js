@@ -9,6 +9,10 @@ export default () => {
         <a className="item">Home</a>
       </Link>
 
+      <Link href="/files/sharedFiles">
+        <a className="item">View Shared Files</a>
+      </Link>
+
       <Menu.Menu position="right">
         <Link href="/files/upload">
           <a className="item">Upload Files</a>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Layout from "../components/Layout";
 import UploadedFileList from "../components/UploadedFileList";
 import SharedFileList from "../components/SharedFileList";
-import { Segment, Grid } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 
 class FileIndex extends Component {
   render() {
