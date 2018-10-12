@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { Segment, Header, Input, Button, Form } from "semantic-ui-react";
 import web3 from "../ethereum/web3";
 import ipfs from "../ethereum/ipfs";
-import File from "../ethereum/fileInstance";
+import FileInstance from "../ethereum/fileInstance";
 import { getMultihashFromBytes32 } from "../lib/multihash";
 import EthCrypto from "eth-crypto";
 import { decrypt } from "./crypto";
-import fileType from "file-type";
+
+const fileType = require("file-type");
+const FileSaver = require("file-saver");
 
 class FileDownload extends Component {
   state = {
@@ -20,7 +22,7 @@ class FileDownload extends Component {
 
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();
-    const fileInstance = File(this.props.address);
+    const fileInstance = FileInstance(this.props.address);
 
     let returnedHash;
     let fileHash;
@@ -99,12 +101,22 @@ class FileDownload extends Component {
       ["encrypt", "decrypt"]
     );
     const fileContent = this.state.fileContent;
+    // Retrieve the original file Content
     const fileBuffer = fileContent.slice(0, fileContent.length - 12);
+
+    // Retrive the original random nonce used for encrypting
     const iv = fileContent.slice(fileContent.length - 12);
 
+    // Decrypt the file
     const decryptedFile = await decrypt(fileBuffer, key, iv);
-    console.log("decryptedFile", decryptedFile);
-    console.log("fileType", fileType(decryptedFile));
+
+    const fileDetail = fileType(decryptedFile);
+
+    // Contruct the file
+    const file = new File([decryptedFile], this.state.fileName, {
+      type: fileDetail.mime
+    });
+    FileSaver.saveAs(file);
 
     this.setState({ loading: false });
   };
