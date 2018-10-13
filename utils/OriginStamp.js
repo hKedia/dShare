@@ -1,5 +1,6 @@
 import { originStampApiKey } from "./OriginStampApiKey";
 
+const fileType = require("file-type");
 export function createTimeStamp(hash, email) {
   const data = {
     comment: "",
@@ -54,4 +55,34 @@ export function getStatusMessage(status_code) {
     default:
       return "No Data Found!";
   }
+}
+
+export function getTimestampProof(filehash) {
+  const data = {
+    currency: 0,
+    hash_string: filehash,
+    proof_type: 0
+  };
+
+  return fetch("https://api.originstamp.com/v3/timestamp/proof", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      Authorization: originStampApiKey()
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => {
+      const reader = response.body.getReader();
+      return reader.read();
+    })
+    .then(data => {
+      const type = fileType(data.value);
+      if (type === null) {
+        return "There is no proof for the submitted file.";
+      }
+
+      const file = new File([data.value], "proof.xml", { type: type.mime });
+      return file;
+    });
 }

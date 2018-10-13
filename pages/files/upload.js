@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Layout from "../../components/Layout";
-import { Form, Button, Input, Icon } from "semantic-ui-react";
+import { Form, Button, Input } from "semantic-ui-react";
 import web3 from "../../ethereum/web3";
 import ipfs from "../../ethereum/ipfs";
 import factory from "../../ethereum/factory";

@@ -14,6 +14,10 @@ export default () => {
       </Link>
 
       <Menu.Menu position="right">
+        <Link href="/files/proof">
+          <a className="item">Download Timestamp Proof</a>
+        </Link>
+
         <Link href="/files/upload">
           <a className="item">Upload Files</a>
         </Link>

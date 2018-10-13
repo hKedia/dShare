@@ -27,7 +27,6 @@ class Index extends Component {
     this.setState({ loading: true });
 
     const publicKey = await getPublicKey(publicAddress);
-    console.log(publicKey);
     this.saveUser(publicAddress, publicKey);
   };
 
