@@ -38,14 +38,13 @@ class Index extends Component {
 
     if (userPublicKey) {
       console.log("user exist");
-      Router.push("/main");
     } else {
       console.log("adding user ...");
-      db.ref("users/" + publicAddress.toLowerCase()).set({
+      await db.ref("users/" + publicAddress.toLowerCase()).set({
         public_key: publicKey
       });
-      Router.push("/main");
     }
+    Router.push("/main");
   };
 
   render() {
