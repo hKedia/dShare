@@ -17,13 +17,27 @@ class FileIndex extends Component {
     this.setState({ loadingFiles: true });
     const accounts = await web3.eth.getAccounts();
 
-    const recipientFiles = await factory.methods
+    let recipientFiles = await factory.methods
       .getRecipientFiles()
       .call({ from: accounts[0] });
 
-    const uploadedFiles = await factory.methods
+    let uploadedFiles = await factory.methods
       .getUploadedFiles()
       .call({ from: accounts[0] });
+
+    const archivedFiles = await factory.methods
+      .getArchivedFiles()
+      .call({ from: accounts[0] });
+
+    if (archivedFiles.length > 0) {
+      recipientFiles = recipientFiles.filter(item => {
+        return !archivedFiles.includes(item);
+      });
+
+      uploadedFiles = uploadedFiles.filter(item => {
+        return !archivedFiles.includes(item);
+      });
+    }
 
     this.setState({
       recipientFiles: recipientFiles,

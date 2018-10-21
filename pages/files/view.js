@@ -10,30 +10,29 @@ class FileView extends Component {
   static async getInitialProps(props) {
     const fileContract = props.query.fileContract;
     const isShared = Number(props.query.isShared);
-    return { fileContract, isShared };
+    const isArchived = Number(props.query.isArchived);
+    return { fileContract, isShared, isArchived };
   }
   render() {
-    let fileSharingComponent;
+    let fileSharingComponent = null;
     if (!this.props.isShared) {
       fileSharingComponent = <FileSharing address={this.props.fileContract} />;
-    } else {
-      fileSharingComponent = (
-        <Segment>
-          <div>Sharing not allowed as you are not the owner</div>
-        </Segment>
-      );
     }
     return (
       <Layout>
         <FileDetail
           address={this.props.fileContract}
           shared={this.props.isShared}
+          archived={this.props.isArchived}
         />
+
         <FileTimestampDetail address={this.props.fileContract} />
+
         <FileDownload
           address={this.props.fileContract}
           shared={this.props.isShared}
         />
+
         {fileSharingComponent}
       </Layout>
     );

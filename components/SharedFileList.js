@@ -17,8 +17,16 @@ class SharedFileList extends Component {
     const files = await factory.methods
       .getSharedFiles()
       .call({ from: accounts[0] });
-    const sharedFiles = this.arrayUnique(files);
-    console.log("Shared - Archived Files:", sharedFiles);
+    let sharedFiles = this.arrayUnique(files);
+
+    const archivedFiles = await factory.methods
+      .getArchivedFiles()
+      .call({ from: accounts[0] });
+
+    sharedFiles = sharedFiles.filter(item => {
+      return !archivedFiles.includes(item);
+    });
+    console.log("Shared Files:", sharedFiles);
     this.setState({ sharedFiles: sharedFiles, loadingFiles: false });
   };
 

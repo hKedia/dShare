@@ -4,18 +4,19 @@ import ipfs from "../utils/ipfs";
 import { Table, Button } from "semantic-ui-react";
 import File from "../ethereum/fileInstance";
 import { getMultihashFromBytes32 } from "../utils/multihash";
-import factory from "../ethereum/factory";
+import Router from "next/router";
 
 class FileDetail extends Component {
   state = {
     ipfsHash: "",
     fileName: "Loading...",
-    account: ""
+    account: "",
+    loading: false,
+    fileInstance: ""
   };
 
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();
-    this.setState({ account: accounts[0] });
     const fileInstance = File(this.props.address);
     let returnedHash;
     if (!this.props.shared) {
@@ -35,33 +36,63 @@ class FileDetail extends Component {
       hashFunction: returnedHash[1],
       size: returnedHash[2]
     };
-    this.setState({ ipfsHash: getMultihashFromBytes32(ipfsHash) });
+    this.setState({
+      ipfsHash: getMultihashFromBytes32(ipfsHash),
+      account: accounts[0],
+      fileInstance: fileInstance
+    });
 
     await ipfs.files.get(this.state.ipfsHash, (err, files) => {
       this.setState({ fileName: files[2].path.split("/").pop() });
     });
   };
 
-  deleteFile = async () => {
-    console.log("Delete File.");
-    const files = await factory.methods
-      .getMyFiles()
-      .call({ from: this.state.account });
+  archiveFile = async () => {
+    console.log("Archive File.");
 
-    console.log(files);
-    console.log(files.indexOf(this.props.address));
+    this.setState({ loading: true });
+    await this.state.fileInstance.methods
+      .archiveFile()
+      .send({ from: this.state.account });
+
+    Router.push("/files/archivedFiles");
+    this.setState({ loading: false });
+  };
+
+  restoreFile = async () => {
+    console.log("Restore File");
   };
 
   render() {
+    let archiveComponent;
+    if (this.props.archived) {
+      archiveComponent = (
+        <Button
+          onClick={this.restoreFile}
+          color="blue"
+          loading={this.state.loading}
+        >
+          Restore
+        </Button>
+      );
+    } else {
+      archiveComponent = (
+        <Button
+          onClick={this.archiveFile}
+          color="red"
+          loading={this.state.loading}
+        >
+          Archive
+        </Button>
+      );
+    }
     return (
       <Table striped fixed>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>File Details</Table.HeaderCell>
             <Table.HeaderCell textAlign="right">
-              <Button onClick={this.deleteFile} color="red">
-                Delete
-              </Button>
+              {archiveComponent}
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>

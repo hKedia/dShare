@@ -11,7 +11,11 @@ class RenderFiles extends Component {
           <Link
             href={{
               pathname: "/files/view",
-              query: { fileContract: address, isShared: this.props.isShared }
+              query: {
+                fileContract: address,
+                isShared: this.props.isShared,
+                isArchived: this.props.isArchived
+              }
             }}
           >
             <a>View File</a>
