@@ -14,7 +14,7 @@ export default props => {
         />
       </Head>
       <Header />
-      <Container style={{ marginTop: "5em" }}>{props.children}</Container>
+      <Container style={{ margin: "5em 5em" }}>{props.children}</Container>
       <Footer />
     </div>
   );

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Segment, Header, Input, Button, Form } from "semantic-ui-react";
 import web3 from "../ethereum/web3";
-import ipfs from "../ethereum/ipfs";
+import ipfs from "../utils/ipfs";
 import FileInstance from "../ethereum/fileInstance";
-import { getMultihashFromBytes32 } from "../lib/multihash";
+import { getMultihashFromBytes32 } from "../utils/multihash";
 import EthCrypto from "eth-crypto";
-import { decrypt } from "./crypto";
+import { decrypt } from "../utils/crypto";
 
 const fileType = require("file-type");
 const FileSaver = require("file-saver");

@@ -6,8 +6,8 @@ import File from "../ethereum/fileInstance";
 import {
   getMultihashFromBytes32,
   getBytes32FromMultiash
-} from "../lib/multihash";
-import ipfs from "../ethereum/ipfs";
+} from "../utils/multihash";
+import ipfs from "../utils/ipfs";
 import EthCrypto from "eth-crypto";
 import Router from "next/router";
 
@@ -108,7 +108,7 @@ class FileSharing extends Component {
       .shareFile(this.state.recipient, digest, hashFunction, size)
       .send({ from: this.state.account });
 
-    Router.push("/main");
+    Router.push("/files/");
     this.setState({ loading: false });
   };
   render() {

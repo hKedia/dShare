@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import Layout from "../../components/Layout";
-import { Form, Button, Input } from "semantic-ui-react";
+import { Form, Button, Input, Segment, Header } from "semantic-ui-react";
 import web3 from "../../ethereum/web3";
-import ipfs from "../../ethereum/ipfs";
+import ipfs from "../../utils/ipfs";
 import factory from "../../ethereum/factory";
-import { getBytes32FromMultiash } from "../../lib/multihash";
+import { getBytes32FromMultiash } from "../../utils/multihash";
 import { createTimeStamp } from "../../utils/OriginStamp";
 import { sha256 } from "../../utils/sha256";
-import { encrypt } from "../../components/crypto";
+import { encrypt } from "../../utils/crypto";
 import Router from "next/router";
 import ethUtil from "ethereumjs-util";
 import EthCrypto from "eth-crypto";
@@ -50,7 +50,7 @@ class FileUpload extends Component {
         from: this.state.account
       });
 
-    Router.push("/main");
+    Router.push("/files/");
     this.setState({ loading: false });
   };
 
@@ -128,26 +128,30 @@ class FileUpload extends Component {
   render() {
     return (
       <Layout>
-        <h3>Upload File</h3>
-        <Form onSubmit={this.onSubmit}>
-          <Form.Group widths="equal">
-            <Form.Field>
-              <Input type="file" onChange={this.captureFile} />
-            </Form.Field>
-            <Form.Field>
-              <Input
-                type="text"
-                label="@"
-                placeholder="Emaild id to receive the timestamp details"
-                value={this.state.email}
-                onChange={event => this.setState({ email: event.target.value })}
-              />
-            </Form.Field>
-          </Form.Group>
-          <Button primary loading={this.state.loading} type="submit">
-            Upload to IPFS
-          </Button>
-        </Form>
+        <Segment>
+          <Header>Upload File</Header>
+          <Form onSubmit={this.onSubmit}>
+            <Form.Group widths="equal">
+              <Form.Field>
+                <Input type="file" onChange={this.captureFile} />
+              </Form.Field>
+              <Form.Field>
+                <Input
+                  type="text"
+                  label="@"
+                  placeholder="Emaild id to receive the timestamp details"
+                  value={this.state.email}
+                  onChange={event =>
+                    this.setState({ email: event.target.value })
+                  }
+                />
+              </Form.Field>
+            </Form.Group>
+            <Button primary loading={this.state.loading} type="submit">
+              Upload to IPFS
+            </Button>
+          </Form>
+        </Segment>
       </Layout>
     );
   }

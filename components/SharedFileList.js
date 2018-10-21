@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { Loader } from "semantic-ui-react";
+import RenderFiles from "./RenderFiles";
+import NoFilesFound from "./NoFilesFound";
 import factory from "../ethereum/factory";
 import web3 from "../ethereum/web3";
-import { renderSharedFiles } from "./renderFiles";
-import NoFilesFound from "./NoFilesFound";
 
 class SharedFileList extends Component {
   state = {
     loadingFiles: false,
-    files: []
+    sharedFiles: []
   };
 
   componentDidMount = async () => {
@@ -17,15 +17,28 @@ class SharedFileList extends Component {
     const files = await factory.methods
       .getSharedFiles()
       .call({ from: accounts[0] });
-    this.setState({ files: files, loadingFiles: false });
+    const sharedFiles = this.arrayUnique(files);
+    console.log("Shared - Archived Files:", sharedFiles);
+    this.setState({ sharedFiles: sharedFiles, loadingFiles: false });
+  };
+
+  arrayUnique = arr => {
+    return arr.filter(function(item, index) {
+      return arr.indexOf(item) >= index;
+    });
   };
 
   render() {
+    let sharedFiles;
+    if (this.state.sharedFiles.length === 0) {
+      sharedFiles = <NoFilesFound />;
+    } else {
+      sharedFiles = <RenderFiles files={this.state.sharedFiles} isShared={0} />;
+    }
     return (
       <div>
-        {renderSharedFiles(this.state.files)}
+        {sharedFiles}
         <Loader active={this.state.loadingFiles} inline="centered" />
-        <NoFilesFound hidden={!!this.state.files.length} />
       </div>
     );
   }

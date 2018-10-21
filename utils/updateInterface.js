@@ -7,9 +7,10 @@ export function updateInterface(selectedAddress, networkVersion) {
     .then(snapshot => {
       const userPublicKey = snapshot.val() && snapshot.val().public_key;
       if (userPublicKey) {
-        window.location.reload();
+        Router.push("/files/");
       } else {
         Router.push("/");
+        window.location.reload();
       }
     });
 }

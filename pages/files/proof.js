@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Layout from "../../components/Layout";
-import { Form, Button, Input } from "semantic-ui-react";
+import { Form, Button, Input, Segment, Header } from "semantic-ui-react";
 import { sha256 } from "../../utils/sha256";
 import { getTimestampProof } from "../../utils/OriginStamp";
 
@@ -50,15 +50,17 @@ class TimestampProof extends Component {
   render() {
     return (
       <Layout>
-        <h3>Submit the file to download the timestamp proof</h3>
-        <Form onSubmit={this.onSubmit}>
-          <Form.Field>
-            <Input type="file" onChange={this.captureFile} />
-          </Form.Field>
-          <Button primary loading={this.state.loading} type="submit">
-            Download Proof
-          </Button>
-        </Form>
+        <Segment>
+          <Header>Submit the file to download the timestamp proof</Header>
+          <Form onSubmit={this.onSubmit}>
+            <Form.Field>
+              <Input type="file" onChange={this.captureFile} />
+            </Form.Field>
+            <Button primary loading={this.state.loading} type="submit">
+              Download Proof
+            </Button>
+          </Form>
+        </Segment>
       </Layout>
     );
   }

@@ -36,7 +36,7 @@ class FileTimestampDetail extends Component {
 
   render() {
     return (
-      <Table celled striped fixed>
+      <Table striped fixed>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell colSpan="2">Timestamp Details</Table.HeaderCell>

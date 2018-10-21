@@ -6,12 +6,16 @@ export default () => {
   return (
     <Menu fixed="top">
       <Container>
-        <Link href="/main">
+        <Link href="/files/">
           <a className="item">Home</a>
         </Link>
 
         <Link href="/files/sharedFiles">
           <a className="item">View Shared Files</a>
+        </Link>
+
+        <Link href="/files/archivedFiles">
+          <a className="item">View Archived Files</a>
         </Link>
 
         <Menu.Menu position="right">

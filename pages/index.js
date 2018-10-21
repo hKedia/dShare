@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Head from "next/head";
 import { Container, Button, Image, Segment } from "semantic-ui-react";
 import web3 from "../ethereum/web3";
-import { getPublicKey } from "../components/getPublicKey";
+import { getPublicKey } from "../utils/getPublicKey";
 import db from "../utils/firebase";
 import Router from "next/router";
 
@@ -39,12 +39,13 @@ class Index extends Component {
     if (userPublicKey) {
       console.log("user exist");
     } else {
-      console.log("adding user ...");
+      console.log("Adding user ...");
       await db.ref("users/" + publicAddress.toLowerCase()).set({
         public_key: publicKey
       });
     }
-    Router.push("/main");
+    console.log("Redirecting...");
+    Router.push("/files/");
   };
 
   render() {

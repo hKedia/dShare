@@ -1,6 +1,7 @@
 import { originStampApiKey } from "./OriginStampApiKey";
 
 const fileType = require("file-type");
+
 export function createTimeStamp(hash, email) {
   const data = {
     comment: "",
