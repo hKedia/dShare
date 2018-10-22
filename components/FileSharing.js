@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Segment, Header, Form, Button, Input } from "semantic-ui-react";
+import { Segment, Header, Form, Button, Input, Table } from "semantic-ui-react";
 import db from "../utils/firebase";
 import web3 from "../ethereum/web3";
 import File from "../ethereum/fileInstance";
@@ -10,6 +10,7 @@ import {
 import ipfs from "../utils/ipfs";
 import EthCrypto from "eth-crypto";
 import Router from "next/router";
+import StopSharing from "../components/StopSharing";
 
 class FileSharing extends Component {
   state = {
@@ -19,7 +20,8 @@ class FileSharing extends Component {
     userPrivateKey: "",
     keyIpfsHash: "",
     account: "",
-    loading: false
+    loading: false,
+    recipientsList: []
   };
 
   componentDidMount = async () => {
@@ -47,6 +49,13 @@ class FileSharing extends Component {
         this.setState({ fileEncryptedkey: JSON.parse(file.toString("utf8")) });
       }
     );
+
+    // Get the recipient List
+    const recipientsList = await fileInstance.methods
+      .getRecipientsList()
+      .call({ from: accounts[0] });
+    console.log("Recipients List", recipientsList);
+    this.setState({ recipientsList });
   };
 
   onSubmit = async event => {
@@ -111,7 +120,32 @@ class FileSharing extends Component {
     Router.push("/files/");
     this.setState({ loading: false });
   };
+
   render() {
+    let recipientsListComponent = null;
+    if (this.state.recipientsList.length > 0) {
+      const cells = this.state.recipientsList.map(recipient => {
+        return (
+          <StopSharing
+            key={recipient}
+            recipient={recipient}
+            loading={this.state.loading}
+            address={this.props.address}
+            account={this.state.account}
+          />
+        );
+      });
+      recipientsListComponent = (
+        <Table basic fixed>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan="2">File Shared With</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>{cells}</Table.Body>
+        </Table>
+      );
+    }
     return (
       <Segment>
         <Header size="tiny">Share file</Header>
@@ -141,6 +175,7 @@ class FileSharing extends Component {
             Share
           </Button>
         </Form>
+        {recipientsListComponent}
       </Segment>
     );
   }
