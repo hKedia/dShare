@@ -14,9 +14,18 @@ class ArchivedFileList extends Component {
   componentDidMount = async () => {
     this.setState({ loadingFiles: true });
     const accounts = await web3.eth.getAccounts();
-    const archivedFiles = await factory.methods
+    let archivedFiles = await factory.methods
       .getArchivedFiles()
       .call({ from: accounts[0] });
+
+    const uploadedFiles = await factory.methods
+      .getUploadedFiles()
+      .call({ from: accounts[0] });
+
+    archivedFiles = uploadedFiles.filter(item => {
+      return archivedFiles.includes(item);
+    });
+
     console.log("Archived Files:", archivedFiles);
     this.setState({ archivedFiles: archivedFiles, loadingFiles: false });
   };

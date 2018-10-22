@@ -5,7 +5,7 @@ contract FileFactory {
     mapping(address => address[]) sharedFiles;
     mapping(address => address[]) recipientFiles;
     
-    mapping(address => address[]) archivedFiles;
+    address[] archivedFiles;
     
     mapping(address => bool) uploaders;
     mapping(address => bool) recipients;
@@ -45,15 +45,15 @@ contract FileFactory {
     }
     
     function archiveFile(address _file, address _from) public isUploader(_from){
-        archivedFiles[_from].push(_file);
+        archivedFiles.push(_file);
     }
     
     function getArchivedFiles() public view returns(address[]) {
-        return archivedFiles[msg.sender];
+        return archivedFiles;
     }
     
     function restoreFile(uint _index, address _from) public isUploader(_from) {
-        removeByIndex(_index, archivedFiles[_from]);
+        removeByIndex(_index, archivedFiles);
     }
     
     function stopSharing(uint _indexOwner, uint _indexRecipient, address _recipient, address _from) public isUploader(_from) {

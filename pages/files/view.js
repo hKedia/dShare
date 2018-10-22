@@ -3,27 +3,28 @@ import Layout from "../../components/Layout";
 import FileDetail from "../../components/FileDetail";
 import FileTimestampDetail from "../../components/FileTimestampDetail";
 import FileSharing from "../../components/FileSharing";
-import { Segment } from "semantic-ui-react";
 import FileDownload from "../../components/FileDownload";
 
 class FileView extends Component {
   static async getInitialProps(props) {
     const fileContract = props.query.fileContract;
     const isShared = Number(props.query.isShared);
+    console.log("shared", isShared);
     const isArchived = Number(props.query.isArchived);
+    console.log("archived", isArchived);
     return { fileContract, isShared, isArchived };
   }
   render() {
     let fileSharingComponent = null;
-    if (!this.props.isShared) {
+    if (!this.props.isShared && !this.props.isArchived) {
       fileSharingComponent = <FileSharing address={this.props.fileContract} />;
     }
     return (
       <Layout>
         <FileDetail
           address={this.props.fileContract}
-          shared={this.props.isShared}
-          archived={this.props.isArchived}
+          isShared={this.props.isShared}
+          isArchived={this.props.isArchived}
         />
 
         <FileTimestampDetail address={this.props.fileContract} />

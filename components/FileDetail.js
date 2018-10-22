@@ -5,6 +5,7 @@ import { Table, Button } from "semantic-ui-react";
 import File from "../ethereum/fileInstance";
 import { getMultihashFromBytes32 } from "../utils/multihash";
 import Router from "next/router";
+import factory from "../ethereum/factory";
 
 class FileDetail extends Component {
   state = {
@@ -19,7 +20,7 @@ class FileDetail extends Component {
     const accounts = await web3.eth.getAccounts();
     const fileInstance = File(this.props.address);
     let returnedHash;
-    if (!this.props.shared) {
+    if (!this.props.isShared) {
       returnedHash = await fileInstance.methods.getFileDetail().call({
         from: accounts[0]
       });
@@ -61,11 +62,26 @@ class FileDetail extends Component {
 
   restoreFile = async () => {
     console.log("Restore File");
+
+    this.setState({ loading: true });
+    const archivedFiles = await factory.methods
+      .getArchivedFiles()
+      .call({ from: this.state.account });
+    const index = archivedFiles.indexOf(this.props.address);
+    console.log("index", index);
+
+    await this.state.fileInstance.methods
+      .restoreFile(index)
+      .send({ from: this.state.account });
+
+    Router.push("/files/");
+
+    this.setState({ loading: false });
   };
 
   render() {
     let archiveComponent;
-    if (this.props.archived) {
+    if (this.props.isArchived && !this.props.isShared) {
       archiveComponent = (
         <Button
           onClick={this.restoreFile}
@@ -75,7 +91,8 @@ class FileDetail extends Component {
           Restore
         </Button>
       );
-    } else {
+    }
+    if (!this.props.isArchived && !this.props.isShared) {
       archiveComponent = (
         <Button
           onClick={this.archiveFile}
