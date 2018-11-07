@@ -10,6 +10,7 @@ class Index extends Component {
   state = {
     loading: false
   };
+
   handleClick = async () => {
     if (!window.web3) {
       window.alert("Please install MetaMask first.");

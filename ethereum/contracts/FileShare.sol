@@ -11,12 +11,7 @@ contract FileFactory {
     mapping(address => bool) recipients;
     
     modifier isUploader(address _from) {
-        require(uploaders[_from]);
-        _;
-    }
-    
-    modifier isRecipient(address _from) {
-        require(recipients[_from]);
+        require(uploaders[_from], "Sender is not the uploader");
         _;
     }
     
@@ -62,8 +57,8 @@ contract FileFactory {
     }
     
     function removeByIndex(uint _index, address[] storage _array) internal {
-        address lastElement = _array[_array.length - 1];
-        _array[_index] = lastElement;
+        _array[_index] = _array[_array.length - 1];
+        delete _array[_array.length - 1];
         _array.length--;
     }
 }
@@ -88,7 +83,7 @@ contract File {
     mapping(address => Multihash) keyLocation;
     
     modifier isOwner() {
-        require(msg.sender == manager);
+        require(msg.sender == manager, "Sender is not the owner");
         _;
     }
     
@@ -131,8 +126,8 @@ contract File {
     
     function stopSharing(uint _indexFactoryOwner, uint _indexFactoryRecipient, uint _indexFileRecipient, address _recipient) public isOwner {
         delete keyLocation[_recipient];
-        address last = recipientsList[recipientsList.length - 1];
-        recipientsList[_indexFileRecipient] = last;
+        recipientsList[_indexFileRecipient] = recipientsList[recipientsList.length - 1];
+        delete recipientsList[recipientsList.length - 1];
         recipientsList.length--;
         ff.stopSharing(_indexFactoryOwner, _indexFactoryRecipient, _recipient, msg.sender);
     }
