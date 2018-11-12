@@ -6,6 +6,7 @@ import File from "../ethereum/fileInstance";
 import { getMultihashFromBytes32 } from "../utils/multihash";
 import Router from "next/router";
 import factory from "../ethereum/factory";
+import { toast } from "react-toastify";
 
 class FileDetail extends Component {
   state = {
@@ -52,11 +53,15 @@ class FileDetail extends Component {
     console.log("Archive File.");
 
     this.setState({ loading: true });
-    await this.state.fileInstance.methods
-      .archiveFile()
-      .send({ from: this.state.account });
+    try {
+      await this.state.fileInstance.methods
+        .archiveFile()
+        .send({ from: this.state.account });
 
-    Router.push("/files/archivedFiles");
+      Router.push("/files/archivedFiles");
+    } catch (error) {
+      toast.error(error.message);
+    }
     this.setState({ loading: false });
   };
 
@@ -70,11 +75,15 @@ class FileDetail extends Component {
     const index = archivedFiles.indexOf(this.props.address);
     console.log("index", index);
 
-    await this.state.fileInstance.methods
-      .restoreFile(index)
-      .send({ from: this.state.account });
+    try {
+      await this.state.fileInstance.methods
+        .restoreFile(index)
+        .send({ from: this.state.account });
 
-    Router.push("/files/");
+      Router.push("/files/");
+    } catch (error) {
+      toast.error(error.message);
+    }
 
     this.setState({ loading: false });
   };

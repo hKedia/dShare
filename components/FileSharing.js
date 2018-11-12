@@ -11,6 +11,7 @@ import ipfs from "../utils/ipfs";
 import EthCrypto from "eth-crypto";
 import Router from "next/router";
 import StopSharing from "../components/StopSharing";
+import { toast } from "react-toastify";
 
 class FileSharing extends Component {
   state = {
@@ -113,11 +114,15 @@ class FileSharing extends Component {
 
     const fileInstance = File(this.props.address);
 
-    await fileInstance.methods
-      .shareFile(this.state.recipient, digest, hashFunction, size)
-      .send({ from: this.state.account });
+    try {
+      await fileInstance.methods
+        .shareFile(this.state.recipient, digest, hashFunction, size)
+        .send({ from: this.state.account });
 
-    Router.push("/files/");
+      Router.push("/files/");
+    } catch (error) {
+      toast.error(error.message);
+    }
     this.setState({ loading: false });
   };
 

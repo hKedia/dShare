@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Router from "next/router";
 import NProgress from "nprogress";
+import { ToastContainer, Slide } from "react-toastify";
 
 Router.events.on("routeChangeStart", url => {
   console.log(`Loading: ${url}`);
@@ -23,11 +24,22 @@ class Layout extends Component {
             href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css"
           />
           <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="/static/ReactToastify.min.css"
+          />
         </Head>
         <Header />
         <Container style={{ margin: "5em 5em" }}>
           {this.props.children}
         </Container>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          transition={Slide}
+        />
+        ;
         <Footer />
       </div>
     );

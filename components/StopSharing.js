@@ -2,6 +2,7 @@ import react, { Component } from "react";
 import { Table, Button } from "semantic-ui-react";
 import File from "../ethereum/fileInstance";
 import factory from "../ethereum/factory";
+import { toast } from "react-toastify";
 
 class StopSharing extends Component {
   state = {
@@ -31,14 +32,18 @@ class StopSharing extends Component {
     const indexFileRecipient = recipientsList.indexOf(this.props.recipient);
     console.log("Index File Recipient", indexFileRecipient);
 
-    await fileInstance.methods
-      .stopSharing(
-        indexFactoryOwner,
-        indexFactoryRecipient,
-        indexFileRecipient,
-        this.props.recipient
-      )
-      .send({ from: this.props.account });
+    try {
+      await fileInstance.methods
+        .stopSharing(
+          indexFactoryOwner,
+          indexFactoryRecipient,
+          indexFileRecipient,
+          this.props.recipient
+        )
+        .send({ from: this.props.account });
+    } catch (error) {
+      toast.error(error.message);
+    }
     this.setState({ loading: false });
   };
 

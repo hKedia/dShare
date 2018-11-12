@@ -3,6 +3,7 @@ import Layout from "../../components/Layout";
 import { Form, Button, Input, Segment, Header } from "semantic-ui-react";
 import { sha256 } from "../../utils/sha256";
 import { getTimestampProof } from "../../utils/OriginStamp";
+import { toast } from "react-toastify";
 
 const FileSaver = require("file-saver");
 
@@ -41,7 +42,7 @@ class TimestampProof extends Component {
     if (typeof proof === "object") {
       FileSaver.saveAs(proof);
     } else {
-      this.setState({ message: proof });
+      toast.error(proof);
     }
 
     this.setState({ loading: false });

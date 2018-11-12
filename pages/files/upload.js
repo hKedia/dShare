@@ -12,6 +12,7 @@ import Router from "next/router";
 import ethUtil from "ethereumjs-util";
 import EthCrypto from "eth-crypto";
 import db from "../../utils/firebase";
+import { toast } from "react-toastify";
 
 class FileUpload extends Component {
   state = {
@@ -44,13 +45,16 @@ class FileUpload extends Component {
     const { digest, hashFunction, size } = getBytes32FromMultiash(fileIpfsHash);
     console.log(`digest:${digest}  hashFunction:${hashFunction} size:${size}`);
 
-    await factory.methods
-      .createFile(digest, hashFunction, size, "0x" + sha256hash)
-      .send({
-        from: this.state.account
-      });
-
-    Router.push("/files/");
+    try {
+      await factory.methods
+        .createFile(digest, hashFunction, size, "0x" + sha256hash)
+        .send({
+          from: this.state.account
+        });
+      Router.push("/files/");
+    } catch (error) {
+      toast.error(error.message);
+    }
     this.setState({ loading: false });
   };
 

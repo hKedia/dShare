@@ -28,6 +28,7 @@
     "openpgp": "^4.1.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-toastify": "^4.4.2",
     "semantic-ui-react": "^0.82.5",
     "solc": "^0.4.25",
     "subworkers": "^1.0.1",
