@@ -1,8 +1,9 @@
-import react, { Component } from "react";
+import React, { Component } from "react";
 import { Table, Button } from "semantic-ui-react";
 import File from "../ethereum/fileInstance";
 import factory from "../ethereum/factory";
 import { toast } from "react-toastify";
+import Router from "next/router";
 
 class StopSharing extends Component {
   state = {
@@ -41,6 +42,8 @@ class StopSharing extends Component {
           this.props.recipient
         )
         .send({ from: this.props.account });
+
+      Router.push("/files/");
     } catch (error) {
       toast.error(error.message);
     }

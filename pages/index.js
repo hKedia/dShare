@@ -17,6 +17,11 @@ class Index extends Component {
       return;
     }
 
+    if ((await web3.eth.net.getNetworkType()) != "rinkeby") {
+      window.alert("Please Connect to Rinkeby Network");
+      return;
+    }
+
     const accounts = await web3.eth.getAccounts();
 
     if (accounts.length === 0) {
