@@ -5,6 +5,10 @@ import FileTimestampDetail from "../../components/FileTimestampDetail";
 import FileSharing from "../../components/FileSharing";
 import FileDownload from "../../components/FileDownload";
 
+/**
+ * Describes the view when user's views a particular file
+ */
+
 class FileView extends Component {
   static async getInitialProps(props) {
     const fileContract = props.query.fileContract;

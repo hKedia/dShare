@@ -14,6 +14,10 @@ import EthCrypto from "eth-crypto";
 import db from "../../utils/firebase";
 import { toast } from "react-toastify";
 
+/**
+ * Describes the view for handling file upload
+ */
+
 class FileUpload extends Component {
   state = {
     buffer: "",
@@ -23,6 +27,11 @@ class FileUpload extends Component {
     email: "",
     account: ""
   };
+
+  /**
+   * Captures the file submitted by the user
+   * @param {object} event The file capture event
+   */
 
   captureFile = event => {
     event.stopPropagation();
@@ -36,10 +45,21 @@ class FileUpload extends Component {
     };
   };
 
+  /**
+   * Converts the captured file into buffer and updates the state variable
+   * @param {object} reader The reader as passed from captureFile()
+   */
+
   convertToBuffer = async reader => {
     const buffer = await Buffer.from(reader.result);
     this.setState({ buffer });
   };
+
+  /**
+   * Converts the IPFS hash into multihash format and submits it to the contract
+   * @param {string} fileIpfsHash The IPFS hash of the uploaded file
+   * @param {string} sha256hash The sha3 hash of the file
+   */
 
   createFile = async (fileIpfsHash, sha256hash) => {
     const { digest, hashFunction, size } = getBytes32FromMultiash(fileIpfsHash);
@@ -57,6 +77,11 @@ class FileUpload extends Component {
     }
     this.setState({ loading: false });
   };
+
+  /**
+   * Getting file's hash and submitting to the OriginStamp API, encrypting the file and uploading to IPFS
+   * @param {object} event The submit event
+   */
 
   onSubmit = async event => {
     event.preventDefault();

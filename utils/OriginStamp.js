@@ -2,6 +2,13 @@ import { originStampApiKey } from "./OriginStampApiKey";
 
 const fileType = require("file-type");
 
+/**
+ * Creates the timestamp by submitting the timestamp to the OriginStamp API
+ * @param {string} hash File's sha3 hash
+ * @param {string} email The email address of the user
+ * @returns {json} The response received from the API
+ */
+
 export function createTimeStamp(hash, email) {
   const data = {
     comment: "",
@@ -28,6 +35,12 @@ export function createTimeStamp(hash, email) {
   });
 }
 
+/**
+ * Gets the timestamp status for a given hash
+ * @param {string} hash File's sha3 hash
+ * @returns {json} The response from the API
+ */
+
 export function timestampStatus(hash) {
   return fetch(`https://api.originstamp.com/v3/timestamp/${hash}`, {
     method: "GET",
@@ -38,6 +51,12 @@ export function timestampStatus(hash) {
     return response.json();
   });
 }
+
+/**
+ * Converts the status code into a meaningful sentence
+ * @param {number} status_code The status code for a timestamp response
+ * @returns {string}
+ */
 
 export function getStatusMessage(status_code) {
   switch (status_code) {
@@ -57,6 +76,12 @@ export function getStatusMessage(status_code) {
       return "No Data Found!";
   }
 }
+
+/**
+ * Fetches the timestamp proof for a given hash from the OriginStamp API
+ * @param {string} filehash File's sha3 hash
+ * @returns {string|xml}
+ */
 
 export function getTimestampProof(filehash) {
   const data = {

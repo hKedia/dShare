@@ -1,6 +1,12 @@
 import web3 from "../ethereum/web3";
 import ethUtil from "ethereumjs-util";
 
+/**
+ * Takes the ethereum key and generated the public key for the corresponding address
+ * @param {string} from The Ethereum address of the user
+ * @returns {string} The public key for the passed ethereum address
+ */
+
 export async function getPublicKey(from) {
   const random = window.crypto
     .getRandomValues(new Uint32Array(1))[0]

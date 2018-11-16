@@ -6,10 +6,18 @@ import { getPublicKey } from "../utils/getPublicKey";
 import db from "../utils/firebase";
 import Router from "next/router";
 
+/**
+ * Base component to handle user login
+ */
+
 class Index extends Component {
   state = {
     loading: false
   };
+
+  /**
+   * Function to handle user interaction with the login button
+   */
 
   handleClick = async () => {
     if (!window.web3) {
@@ -35,6 +43,12 @@ class Index extends Component {
     const publicKey = await getPublicKey(publicAddress);
     this.saveUser(publicAddress, publicKey);
   };
+
+  /**
+   * Saves user's publicKey to the database if it does not exist
+   * @param {string} publicAddress The ethereum address of the user
+   * @param {string} publicKey The public key for the corresponding ethereum address
+   */
 
   saveUser = async (publicAddress, publicKey) => {
     const snapshot = await db

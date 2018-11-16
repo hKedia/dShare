@@ -7,12 +7,21 @@ import { toast } from "react-toastify";
 
 const FileSaver = require("file-saver");
 
+/**
+ * Describes the view where user can get timestamp proof for a given document
+ */
+
 class TimestampProof extends Component {
   state = {
     buffer: "",
     loading: false,
     message: ""
   };
+
+  /**
+   * Captures the file submitted by user
+   * @param {object} event The file capture event
+   */
 
   captureFile = event => {
     event.stopPropagation();
@@ -25,10 +34,20 @@ class TimestampProof extends Component {
     };
   };
 
+  /**
+   * Converts the captured file into buffer and updates the state variable
+   * @param {object} reader The reader as passed from captureFile()
+   */
+
   convertToBuffer = async reader => {
     const buffer = await Buffer.from(reader.result);
     this.setState({ buffer });
   };
+
+  /**
+   * Get's the file's hash and submits it to the OriginStamp API to get the proof
+   * @param {object} event The submit event
+   */
 
   onSubmit = async event => {
     event.preventDefault();

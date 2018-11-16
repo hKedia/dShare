@@ -7,12 +7,20 @@ import NoFilesFound from "../../components/NoFilesFound";
 import RenderFiles from "../../components/RenderFiles";
 import { Loader } from "semantic-ui-react";
 
+/**
+ * The component describes the default view when user logs in
+ */
+
 class FileIndex extends Component {
   state = {
     recipientFiles: [],
     uploadedFiles: [],
     loadingFiles: false
   };
+
+  /**
+   * Once the component is mounted, it retrives the recipient files, uploaded files and archives files from the contract
+   */
   componentDidMount = async () => {
     this.setState({ loadingFiles: true });
     const accounts = await web3.eth.getAccounts();
