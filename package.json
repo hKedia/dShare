@@ -10,8 +10,9 @@
     "test": "mocha",
     "dev": "next",
     "build": "next build",
+    "start": "next start -p $PORT",
     "heroku-postbuild": "npm run build",
-    "start": "next start"
+    "web": "next start -p $PORT"
   },
   "author": "",
   "license": "ISC",
