@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { Card } from "semantic-ui-react";
 import Link from "next/link";
 
+/**
+ * Decribes the view to list all uploaded and shared files
+ */
+
 class RenderFiles extends Component {
   render() {
     const items = this.props.files.map(address => {

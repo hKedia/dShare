@@ -2,6 +2,9 @@ import React from "react";
 import { Menu, Container } from "semantic-ui-react";
 import Link from "next/link";
 
+/**
+ * Decribes the Header which lists the navigation options for the user
+ */
 export default () => {
   return (
     <Menu fixed="top">

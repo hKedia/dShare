@@ -13,6 +13,8 @@ import Router from "next/router";
 import StopSharing from "../components/StopSharing";
 import { toast } from "react-toastify";
 
+/** Describes the file sharing functionality for a file */
+
 class FileSharing extends Component {
   state = {
     recipient: "",
@@ -25,11 +27,16 @@ class FileSharing extends Component {
     recipientsList: []
   };
 
+  /**
+   * Getting the necessary file details when the component is loaded
+   */
+
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();
     const fileInstance = File(this.props.address);
 
     this.setState({ account: accounts[0] });
+
     // get File's IPFS hash from Contract
     const returnedHash = await fileInstance.methods.getFileDetail().call({
       from: accounts[0]
@@ -58,6 +65,11 @@ class FileSharing extends Component {
     console.log("Recipients List", recipientsList);
     this.setState({ recipientsList });
   };
+
+  /**
+   * Encrypting the file's key using recipient's ethereum public key, uploading it to IPFS,
+   * and sharing using smart contract
+   */
 
   onSubmit = async event => {
     event.preventDefault();
@@ -107,6 +119,11 @@ class FileSharing extends Component {
       });
     });
   };
+
+  /**
+   * Calls the shareFile() in File Contract
+   * @param {string} The IPFS hash of the encrypted key
+   */
 
   shareFile = async keyIpfsHash => {
     const { digest, hashFunction, size } = getBytes32FromMultiash(keyIpfsHash);

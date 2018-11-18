@@ -10,6 +10,11 @@ import { decrypt } from "../utils/crypto";
 const fileType = require("file-type");
 const FileSaver = require("file-saver");
 
+/**
+ * This component enables the user to download a file by providing their private key,
+ * which is used to decrypt the file's key
+ */
+
 class FileDownload extends Component {
   state = {
     userPrivateKey: "",
@@ -19,6 +24,8 @@ class FileDownload extends Component {
     fileName: "",
     encryptedKey: {}
   };
+
+  /** Retrives the file's IPFS hash and key */
 
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();
@@ -84,15 +91,22 @@ class FileDownload extends Component {
     });
   };
 
+  /**
+   * It decrypts the key which is used to decrypt the file and downloads it
+   */
+
   onSubmit = async event => {
     event.preventDefault();
 
     this.setState({ loading: true });
 
+    /** Decrypt the key using user's private key */
     const decryptedKey = await EthCrypto.decryptWithPrivateKey(
       this.state.userPrivateKey,
       this.state.encryptedKey
     );
+
+    /** Convert key into valid jwk format */
     const key = await window.crypto.subtle.importKey(
       "jwk",
       JSON.parse(decryptedKey),
@@ -100,7 +114,9 @@ class FileDownload extends Component {
       true,
       ["encrypt", "decrypt"]
     );
+
     const fileContent = this.state.fileContent;
+
     // Retrieve the original file Content
     const fileBuffer = fileContent.slice(0, fileContent.length - 12);
 

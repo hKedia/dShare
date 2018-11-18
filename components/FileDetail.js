@@ -8,6 +8,11 @@ import Router from "next/router";
 import factory from "../ethereum/factory";
 import { toast } from "react-toastify";
 
+/**
+ * Describes the view to display file details such as file name, it's IPFS hash,
+ * and contract address where it's deployed
+ */
+
 class FileDetail extends Component {
   state = {
     ipfsHash: "",
@@ -16,6 +21,10 @@ class FileDetail extends Component {
     loading: false,
     fileInstance: ""
   };
+
+  /**
+   * Getting the file's IPFS hash and the corresponding file name
+   */
 
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();
@@ -49,6 +58,10 @@ class FileDetail extends Component {
     });
   };
 
+  /**
+   * Archives a file by calling the archiveFile() in the File contract
+   */
+
   archiveFile = async () => {
     console.log("Archive File.");
 
@@ -64,6 +77,8 @@ class FileDetail extends Component {
     }
     this.setState({ loading: false });
   };
+
+  /** Restores a previously archived file */
 
   restoreFile = async () => {
     console.log("Restore File");

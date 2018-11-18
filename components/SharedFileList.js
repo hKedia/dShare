@@ -5,11 +5,18 @@ import NoFilesFound from "./NoFilesFound";
 import factory from "../ethereum/factory";
 import web3 from "../ethereum/web3";
 
+/** Describes the view to list the files shared by a user. */
+
 class SharedFileList extends Component {
   state = {
     loadingFiles: false,
     sharedFiles: []
   };
+
+  /**
+   * Gets the list of shared and archived files and filters the result,
+   * for the specific user
+   */
 
   componentDidMount = async () => {
     this.setState({ loadingFiles: true });
@@ -29,6 +36,12 @@ class SharedFileList extends Component {
     console.log("Shared Files:", sharedFiles);
     this.setState({ sharedFiles: sharedFiles, loadingFiles: false });
   };
+
+  /**
+   * Filters an array and returns only unique elements
+   * @param {array} arr The array to be filtered
+   * @returns {array} The array with no duplicates
+   */
 
   arrayUnique = arr => {
     return arr.filter(function(item, index) {

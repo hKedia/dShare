@@ -4,6 +4,8 @@ import File from "../ethereum/fileInstance";
 import web3 from "../ethereum/web3";
 import { timestampStatus, getStatusMessage } from "../utils/OriginStamp";
 
+/** Describes the view for showing timestamping details for the file */
+
 class FileTimestampDetail extends Component {
   state = {
     sha3hash: "",
@@ -11,6 +13,10 @@ class FileTimestampDetail extends Component {
     transaction: "",
     timestamp: ""
   };
+
+  /** Gets the file's sha3 hash from the contract and submits it
+   * to the OriginStamp API to get the timestamping details
+   */
 
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();

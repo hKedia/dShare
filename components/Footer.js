@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Menu, Container, Label } from "semantic-ui-react";
-import Link from "next/link";
+import { Menu, Container } from "semantic-ui-react";
 import web3 from "../ethereum/web3";
 
+/** Describes the Footer component of the application */
 class Footer extends Component {
   state = {
     account: "",
     network: ""
   };
+  /** Gets the current account and current network user is connected to */
   componentDidMount = async () => {
     const accounts = await web3.eth.getAccounts();
     const network = await web3.eth.net.getNetworkType();

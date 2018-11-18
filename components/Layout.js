@@ -7,12 +7,17 @@ import Router from "next/router";
 import NProgress from "nprogress";
 import { ToastContainer, Slide } from "react-toastify";
 
+/** Loader which shows up when user navigates to another page within the application */
 Router.events.on("routeChangeStart", url => {
   console.log(`Loading: ${url}`);
   NProgress.start();
 });
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
+
+/**
+ * Decribes the parent component which wraps around all other components
+ */
 
 class Layout extends Component {
   render() {
