@@ -4,8 +4,8 @@ const compiledFactory = require("./build/FileFactory.json");
 
 // setting up provider with account mnemonic and infura node url
 const provider = new HDWalletProvider(
-  process.env.WALLET_SEED,
-  process.env.RINKEBY_URL
+  "YOUR WALLET SEED",
+  "YOUR RINKEBY API URL"
 );
 
 const web3 = new Web3(provider);
