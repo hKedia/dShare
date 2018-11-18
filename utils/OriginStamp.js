@@ -1,5 +1,3 @@
-import { originStampApiKey } from "./OriginStampApiKey";
-
 const fileType = require("file-type");
 
 /**
@@ -27,7 +25,7 @@ export function createTimeStamp(hash, email) {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      Authorization: originStampApiKey()
+      Authorization: process.env.ORIGINSTAMP_API_KEY
     },
     body: JSON.stringify(data)
   }).then(response => {
@@ -45,7 +43,7 @@ export function timestampStatus(hash) {
   return fetch(`https://api.originstamp.com/v3/timestamp/${hash}`, {
     method: "GET",
     headers: {
-      Authorization: originStampApiKey()
+      Authorization: process.env.ORIGINSTAMP_API_KEY
     }
   }).then(response => {
     return response.json();
@@ -94,7 +92,7 @@ export function getTimestampProof(filehash) {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      Authorization: originStampApiKey()
+      Authorization: process.env.ORIGINSTAMP_API_KEY
     },
     body: JSON.stringify(data)
   })

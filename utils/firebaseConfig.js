@@ -2,12 +2,12 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 const config = {
-  apiKey: "AIzaSyD2fNf6h3tgBrrnzJcVkVDG5Cno0q1z_xQ",
-  authDomain: "file-share-812ba.firebaseapp.com",
-  databaseURL: "https://file-share-812ba.firebaseio.com",
-  projectId: "file-share-812ba",
-  storageBucket: "file-share-812ba.appspot.com",
-  messagingSenderId: "764387547212"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID
 };
 
 export default (!firebase.apps.length
