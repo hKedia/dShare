@@ -1,6 +1,6 @@
 ## Local Setup
 
-### Dowloading dependencies
+### Downloading dependencies
 
 1. Clone the repo using `git clone` and `cd` into the folder
 2. Run `npm install` to download all the dependencies
