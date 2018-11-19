@@ -78,7 +78,7 @@ class Index extends Component {
           />
         </Head>
         <div style={{ marginTop: "10px" }}>
-          <Segment>Login to Continue</Segment>
+          <Segment>Login/Signup to Continue</Segment>
           <Segment basic>
             <Button
               loading={this.state.loading}

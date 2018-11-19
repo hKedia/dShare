@@ -6,6 +6,8 @@ import Footer from "../components/Footer";
 import Router from "next/router";
 import NProgress from "nprogress";
 import { ToastContainer, Slide } from "react-toastify";
+import web3 from "../ethereum/web3";
+import db from "../utils/firebase";
 
 /** Loader which shows up when user navigates to another page within the application */
 Router.events.on("routeChangeStart", url => {
@@ -14,6 +16,19 @@ Router.events.on("routeChangeStart", url => {
 });
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
+
+/** Listener for account change in metamask */
+web3.currentProvider.publicConfigStore.on(
+  "update",
+  async ({ selectedAddress, networkVersion }) => {
+    const snapshot = await db
+      .ref("/users/" + selectedAddress.toLowerCase())
+      .once("value");
+    if (snapshot.val() == null) {
+      Router.push("/");
+    }
+  }
+);
 
 /**
  * Decribes the parent component which wraps around all other components

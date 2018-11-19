@@ -81,6 +81,13 @@ class FileSharing extends Component {
     const snapshot = await db
       .ref("/users/" + this.state.recipient.toLowerCase())
       .once("value");
+
+    // Throw error, if recipient public key is not found
+    if (snapshot.val() === null) {
+      toast.error("The Recipient needs to signup before a file can be shared.");
+      this.setState({ loading: false });
+      return;
+    }
     const recipientPublicKey = snapshot.val() && snapshot.val().public_key;
     console.log("recipientPublicKey", recipientPublicKey);
     console.log("fileEncryptedkey", this.state.fileEncryptedkey);
