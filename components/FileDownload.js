@@ -150,6 +150,7 @@ class FileDownload extends Component {
               onChange={event =>
                 this.setState({ userPrivateKey: event.target.value })
               }
+              required
             />
           </Form.Field>
 

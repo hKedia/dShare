@@ -10,7 +10,7 @@ class RenderFiles extends Component {
   render() {
     const items = this.props.files.map(address => {
       return {
-        header: address,
+        header: localStorage.getItem(address) || address,
         description: (
           <Link
             href={{

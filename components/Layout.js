@@ -25,7 +25,7 @@ web3.currentProvider.publicConfigStore.on(
       .ref("/users/" + selectedAddress.toLowerCase())
       .once("value");
     if (snapshot.val() == null) {
-      Router.push("/");
+      Router.push("/login");
     }
   }
 );

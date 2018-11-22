@@ -162,17 +162,18 @@ class FileUpload extends Component {
           <Form onSubmit={this.onSubmit}>
             <Form.Group widths="equal">
               <Form.Field>
-                <Input type="file" onChange={this.captureFile} />
+                <Input type="file" onChange={this.captureFile} required />
               </Form.Field>
               <Form.Field>
                 <Input
-                  type="text"
+                  type="email"
                   label="@"
                   placeholder="Emaild id to receive the timestamp details"
                   value={this.state.email}
                   onChange={event =>
                     this.setState({ email: event.target.value })
                   }
+                  required
                 />
               </Form.Field>
             </Form.Group>

@@ -53,8 +53,16 @@ class FileDetail extends Component {
       fileInstance: fileInstance
     });
 
+    /** Retrive the file name from IPFs */
     await ipfs.files.get(this.state.ipfsHash, (err, files) => {
-      this.setState({ fileName: files[2].path.split("/").pop() });
+      let fileName = files[2].path.split("/").pop();
+
+      /** Update the local storage with deployed file's name */
+      if (localStorage.getItem(this.props.address) === null) {
+        localStorage.setItem(this.props.address, fileName);
+      }
+
+      this.setState({ fileName });
     });
   };
 

@@ -74,7 +74,7 @@ class TimestampProof extends Component {
           <Header>Submit the file to download the timestamp proof</Header>
           <Form onSubmit={this.onSubmit}>
             <Form.Field>
-              <Input type="file" onChange={this.captureFile} />
+              <Input type="file" onChange={this.captureFile} required />
             </Form.Field>
             <Button primary loading={this.state.loading} type="submit">
               Download Proof
