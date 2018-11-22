@@ -11,10 +11,11 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "doc": "react-doc-generator ./ -o DOCUMENTATION.md"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Harsh Kedia",
+  "license": "MIT",
   "dependencies": {
     "bs58": "^4.0.1",
     "dotenv-webpack": "^1.5.7",
@@ -41,5 +42,8 @@
     "subworkers": "^1.0.1",
     "truffle-hdwallet-provider": "0.0.6",
     "web3": "^1.0.0-beta.36"
+  },
+  "devDependencies": {
+    "react-doc-generator": "^1.2.5"
   }
 }
