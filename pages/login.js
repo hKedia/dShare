@@ -29,18 +29,32 @@ class Login extends Component {
       window.alert("Please Connect to Rinkeby Network");
       return;
     }
+    let accounts;
+    accounts = await web3.eth.getAccounts();
 
-    const accounts = await web3.eth.getAccounts();
-
+    /** Prompt user for access */
     if (accounts.length === 0) {
-      window.alert("Please login to your Metamask account first.");
-      return;
+      try {
+        await window.ethereum.enable();
+        accounts = await web3.eth.getAccounts();
+      } catch (error) {
+        alert("You to grant access to use the application.");
+        return;
+      }
     }
 
     const publicAddress = accounts[0];
     this.setState({ loading: true });
 
-    const publicKey = await getPublicKey(publicAddress);
+    /** Get user public key or handle the rejection */
+    let publicKey;
+    try {
+      publicKey = await getPublicKey(publicAddress);
+    } catch (error) {
+      this.setState({ loading: false });
+      alert("You need to sign the message to login.");
+      return;
+    }
     this.saveUser(publicAddress, publicKey);
   };
 
