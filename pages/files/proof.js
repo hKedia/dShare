@@ -58,10 +58,14 @@ class TimestampProof extends Component {
     console.log("filehash", filehash);
 
     const proof = await getTimestampProof(filehash);
-    if (typeof proof === "object") {
-      FileSaver.saveAs(proof);
+
+    if (proof === undefined) {
+      toast.error("No proof found for the submitted file");
     } else {
-      toast.error(proof);
+      const { reader, filename } = proof;
+      const data = await reader.read();
+      const file = new File([data.value], filename);
+      FileSaver.saveAs(file);
     }
 
     this.setState({ loading: false });
