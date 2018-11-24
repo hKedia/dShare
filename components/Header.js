@@ -29,6 +29,10 @@ export default () => {
           <Link href="/files/upload">
             <a className="item">Upload Files</a>
           </Link>
+
+          <Link href="/login">
+            <a className="item">Logout</a>
+          </Link>
         </Menu.Menu>
       </Container>
     </Menu>
