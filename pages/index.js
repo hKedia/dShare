@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import Head from "next/head";
-import { Container, Segment, Button, Grid, Image } from "semantic-ui-react";
+import {
+  Container,
+  Segment,
+  Button,
+  Grid,
+  Image,
+  Icon
+} from "semantic-ui-react";
 import Link from "next/link";
 
 class Index extends Component {
@@ -15,17 +22,24 @@ class Index extends Component {
         </Head>
         <Grid style={{ marginTop: "0" }}>
           <Grid.Row verticalAlign="middle">
-            <Grid.Column width={13}>
+            <Grid.Column width={10}>
               <Segment textAlign="center">
                 Welcome to dShare - A decentralized file sharing application
               </Segment>
             </Grid.Column>
             <Grid.Column width={3}>
               <Link href="/login">
-                <Button basic floated="right" size="big" color="blue">
-                  Take me to Login
+                <Button basic fluid size="big" color="blue">
+                  <Icon name="sign-in" /> To Login
                 </Button>
               </Link>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <a href="https://github.com/hKedia/dShare">
+                <Button basic fluid size="big" color="black">
+                  <Icon name="github" /> Github
+                </Button>
+              </a>
             </Grid.Column>
           </Grid.Row>
 
@@ -86,6 +100,12 @@ class Index extends Component {
                   An Immutable timestamp of the file is created by submitting
                   the SHA-256 hash of the file to the Bitcoin blockchain using
                   the <a href="https://originstamp.org/">OriginStamp</a> API.
+                </p>
+                <br />
+                <p>
+                  If you would like to check out the source code, then head over
+                  to the project's{" "}
+                  <a href="https://github.com/hKedia/dShare">Github repo.</a>
                 </p>
               </Segment>
             </Grid.Column>
