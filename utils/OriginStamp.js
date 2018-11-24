@@ -1,5 +1,3 @@
-const fileType = require("file-type");
-
 /**
  * Creates the timestamp by submitting the timestamp to the OriginStamp API
  * @param {string} hash File's sha3 hash
@@ -95,18 +93,22 @@ export function getTimestampProof(filehash) {
       Authorization: process.env.ORIGINSTAMP_API_KEY
     },
     body: JSON.stringify(data)
-  })
-    .then(response => {
-      const reader = response.body.getReader();
-      return reader.read();
-    })
-    .then(data => {
-      const type = fileType(data.value);
-      if (type === null) {
-        return "There is no proof for the submitted file.";
-      }
+  }).then(response => {
+    /** Read the response headers */
+    const headerContent = response.headers.get("content-disposition");
 
-      const file = new File([data.value], "proof.xml", { type: type.mime });
-      return file;
-    });
+    if (headerContent === null) {
+      return;
+    }
+
+    /** Get the file name */
+    const filename = headerContent
+      .slice(headerContent.indexOf('"'))
+      .replace(/^"(.+(?="$))"$/, "$1");
+
+    /** Retrive data from the data stream */
+    const reader = response.body.getReader();
+    //return reader.read();
+    return { reader, filename };
+  });
 }

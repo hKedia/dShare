@@ -1,99 +1,96 @@
 import React, { Component } from "react";
 import Head from "next/head";
-import { Container, Button, Image, Segment } from "semantic-ui-react";
-import web3 from "../ethereum/web3";
-import { getPublicKey } from "../utils/getPublicKey";
-import db from "../utils/firebase";
-import Router from "next/router";
-
-/**
- * Base component to handle user login
- */
+import { Container, Segment, Button, Grid, Image } from "semantic-ui-react";
+import Link from "next/link";
 
 class Index extends Component {
-  state = {
-    loading: false
-  };
-
-  /**
-   * Function to handle user interaction with the login button
-   */
-
-  handleClick = async () => {
-    if (!window.web3) {
-      window.alert("Please install MetaMask first.");
-      return;
-    }
-
-    if ((await web3.eth.net.getNetworkType()) != "rinkeby") {
-      window.alert("Please Connect to Rinkeby Network");
-      return;
-    }
-
-    const accounts = await web3.eth.getAccounts();
-
-    if (accounts.length === 0) {
-      window.alert("Please login to your Metamask account first.");
-      return;
-    }
-
-    const publicAddress = accounts[0];
-    this.setState({ loading: true });
-
-    const publicKey = await getPublicKey(publicAddress);
-    this.saveUser(publicAddress, publicKey);
-  };
-
-  /**
-   * Saves user's publicKey to the database if it does not exist
-   * @param {string} publicAddress The ethereum address of the user
-   * @param {string} publicKey The public key for the corresponding ethereum address
-   */
-
-  saveUser = async (publicAddress, publicKey) => {
-    const snapshot = await db
-      .ref("/users/" + publicAddress.toLowerCase())
-      .once("value");
-    const userPublicKey = snapshot.val() && snapshot.val().public_key;
-
-    if (userPublicKey) {
-      console.log("user exist");
-    } else {
-      console.log("Adding user ...");
-      await db.ref("users/" + publicAddress.toLowerCase()).set({
-        public_key: publicKey
-      });
-    }
-    console.log("Redirecting...");
-    Router.push("/files/");
-  };
-
   render() {
     return (
-      <Container textAlign="center">
+      <Container>
         <Head>
           <link
             rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css"
           />
         </Head>
-        <div style={{ marginTop: "10px" }}>
-          <Segment>Login/Signup to Continue</Segment>
-          <Segment basic>
-            <Button
-              loading={this.state.loading}
-              basic
-              color="orange"
-              onClick={this.handleClick}
-            >
-              <Image
-                src="/static/metamask.png"
-                alt="Login With Metamask"
-                rounded
-              />
-            </Button>
-          </Segment>
-        </div>
+        <Grid style={{ marginTop: "0" }}>
+          <Grid.Row verticalAlign="middle">
+            <Grid.Column width={13}>
+              <Segment textAlign="center">
+                Welcome to dShare - A decentralized file sharing application
+              </Segment>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <Link href="/login">
+                <Button basic floated="right" size="big" color="blue">
+                  Take me to Login
+                </Button>
+              </Link>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Segment size="big" padded>
+                <Image
+                  src="/static/bitcoin-icon.png"
+                  floated="left"
+                  size="tiny"
+                  href="https://bitcoin.org/"
+                />
+                <p>
+                  dShare is a decentralized file sharing application with
+                  immutable timestamping built using Bitcoin, Ethereum and IPFS
+                  technologies.
+                </p>
+                <br />
+                <p>
+                  When a user uploads a file, it's first encrypted and then
+                  uploaded to the IPFS network. The key used for encrypting the
+                  file is then encrypted with the Ethereum public key of the
+                  uploader. Once encrypted, the key is also uploaded to the IPFS
+                  network.
+                </p>
+                <Image
+                  src="/static/ethereum-icon.png"
+                  floated="right"
+                  size="tiny"
+                  href="https://www.ethereum.org/"
+                />
+                <p>
+                  Once the file is successfully uploaded, it can be shared with
+                  any Ethereum address.
+                </p>
+
+                <p>
+                  When a user shares a file, the key used for encrypting the
+                  file is downloaded from the IPFS network. Once the key is
+                  downloaded, it's decrypted using uploader's private key and
+                  encrypted again with the recipient's public Ethereum key.
+                  After this it's again uploaded to the IPFS network.
+                </p>
+                <br />
+                <Image
+                  src="/static/ipfs-icon.png"
+                  floated="left"
+                  size="tiny"
+                  href="https://ipfs.io/"
+                />
+                <p>
+                  IPFS references of files and their key is facilitated through
+                  the Smart contract which is deployed on the Ethereum (Rinkeby)
+                  network.
+                </p>
+                <br />
+                <p>
+                  An Immutable timestamp of the file is created by submitting
+                  the SHA-256 hash of the file to the Bitcoin blockchain using
+                  the <a href="https://originstamp.org/">OriginStamp</a> API.
+                </p>
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </Container>
     );
   }

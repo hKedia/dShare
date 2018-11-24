@@ -187,6 +187,7 @@ class FileSharing extends Component {
               onChange={event =>
                 this.setState({ recipient: event.target.value })
               }
+              required
             />
           </Form.Field>
 
@@ -197,6 +198,7 @@ class FileSharing extends Component {
               onChange={event =>
                 this.setState({ userPrivateKey: event.target.value })
               }
+              required
             />
           </Form.Field>
 

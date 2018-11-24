@@ -25,7 +25,7 @@ web3.currentProvider.publicConfigStore.on(
       .ref("/users/" + selectedAddress.toLowerCase())
       .once("value");
     if (snapshot.val() == null) {
-      Router.push("/");
+      Router.push("/login");
     }
   }
 );
@@ -51,7 +51,7 @@ class Layout extends Component {
           />
         </Head>
         <Header />
-        <Container style={{ margin: "5em 5em" }}>
+        <Container style={{ margin: "4em 0 3em 0" }}>
           {this.props.children}
         </Container>
         <ToastContainer
