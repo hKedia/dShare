@@ -67,7 +67,7 @@ class Help extends Component {
       case "/upload":
         content = (
           <Segment basic size="big">
-            <p>Content for Upload</p>
+            <p>Here you can upload your file to the IPFS network.</p>
           </Segment>
         );
         break;
@@ -75,7 +75,7 @@ class Help extends Component {
       case "/view":
         content = (
           <Segment basic size="big">
-            <p>Content for File View page</p>
+            <p>This page shows all the details for a file.</p>
           </Segment>
         );
         break;
