@@ -160,7 +160,10 @@ class FileDetail extends Component {
           <Table.Row>
             <Table.Cell>IPFS Hash</Table.Cell>
             <Table.Cell textAlign="right">
-              <a href={"https://gateway.ipfs.io/ipfs/" + this.state.ipfsHash}>
+              <a
+                href={"https://gateway.ipfs.io/ipfs/" + this.state.ipfsHash}
+                target="_blank"
+              >
                 {this.state.ipfsHash}
               </a>
             </Table.Cell>

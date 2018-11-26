@@ -62,6 +62,7 @@ class FileTimestampDetail extends Component {
                 href={
                   "https://www.blockchain.com/btc/tx/" + this.state.transaction
                 }
+                target="_blank"
               >
                 {this.state.transaction}
               </a>
