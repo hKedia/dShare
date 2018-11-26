@@ -7,7 +7,10 @@ if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
   web3 = new Web3(window.ethereum);
   /** Prompting user for account access */
   window.ethereum.enable();
-} else if (typeof window !== "undefined" && window.web3 !== "undefined") {
+} else if (
+  typeof window !== "undefined" &&
+  typeof window.web3 !== "undefined"
+) {
   web3 = new Web3(window.web3.currentProvider);
 } else {
   // We are in server or no Metamask installed
