@@ -57,7 +57,6 @@ class Index extends Component {
                   immutable timestamping built using Bitcoin, Ethereum and IPFS
                   technologies.
                 </p>
-                <br />
                 <p>
                   When a user uploads a file, it's first encrypted and then
                   uploaded to the IPFS network. The key used for encrypting the
@@ -65,6 +64,12 @@ class Index extends Component {
                   uploader. Once encrypted, the key is also uploaded to the IPFS
                   network.
                 </p>
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Segment size="big" padded>
                 <Image
                   src="/static/ethereum-icon.png"
                   floated="right"
@@ -83,7 +88,12 @@ class Index extends Component {
                   encrypted again with the recipient's public Ethereum key.
                   After this it's again uploaded to the IPFS network.
                 </p>
-                <br />
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Segment size="big" padded>
                 <Image
                   src="/static/ipfs-icon.png"
                   floated="left"
@@ -95,13 +105,11 @@ class Index extends Component {
                   the Smart contract which is deployed on the Ethereum (Rinkeby)
                   network.
                 </p>
-                <br />
                 <p>
                   An Immutable timestamp of the file is created by submitting
                   the SHA-256 hash of the file to the Bitcoin blockchain using
                   the <a href="https://originstamp.org/">OriginStamp</a> API.
                 </p>
-                <br />
                 <p>
                   If you would like to check out the source code, then head over
                   to the project's{" "}

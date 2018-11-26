@@ -1,6 +1,8 @@
 import React from "react";
-import { Menu, Container } from "semantic-ui-react";
+import { Menu, Container, Modal, Icon, Header } from "semantic-ui-react";
 import Link from "next/link";
+import Router from "next/router";
+import Help from "../components/Help";
 
 /**
  * Decribes the Header which lists the navigation options for the user
@@ -29,6 +31,23 @@ export default () => {
           <Link href="/files/upload">
             <a className="item">Upload Files</a>
           </Link>
+
+          <Modal
+            trigger={
+              <a className="item">
+                <Icon name="help" />
+              </a>
+            }
+            centered={false}
+          >
+            <Header>
+              <Icon name="help" />
+              Help Page for {Router.pathname}
+            </Header>
+            <Modal.Content>
+              <Help pathname={Router.pathname} />
+            </Modal.Content>
+          </Modal>
 
           <Link href="/login">
             <a className="item">Logout</a>
