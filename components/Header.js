@@ -42,10 +42,10 @@ export default () => {
           >
             <Header>
               <Icon name="help" />
-              Help Page for {Router.pathname}
+              Help Page
             </Header>
             <Modal.Content>
-              <Help pathname={Router.pathname} />
+              <Help />
             </Modal.Content>
           </Modal>
 

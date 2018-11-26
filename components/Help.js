@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
+import Router from "next/router";
 
 class Help extends Component {
   render() {
-    const pathname = this.props.pathname;
+    const pathname = Router.pathname;
     const path = pathname.slice(pathname.lastIndexOf("/"));
     let content;
     switch (path) {

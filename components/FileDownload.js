@@ -7,7 +7,6 @@ import { getMultihashFromBytes32 } from "../utils/multihash";
 import EthCrypto from "eth-crypto";
 import { decrypt } from "../utils/crypto";
 
-const fileType = require("file-type");
 const FileSaver = require("file-saver");
 
 /**
@@ -126,12 +125,8 @@ class FileDownload extends Component {
     // Decrypt the file
     const decryptedFile = await decrypt(fileBuffer, key, iv);
 
-    const fileDetail = fileType(decryptedFile);
-
     // Contruct the file
-    const file = new File([decryptedFile], this.state.fileName, {
-      type: fileDetail.mime
-    });
+    const file = new File([decryptedFile], this.state.fileName);
     FileSaver.saveAs(file);
 
     this.setState({ loading: false });

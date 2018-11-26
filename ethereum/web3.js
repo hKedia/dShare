@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import db from "../utils/firebase";
 
 let web3;
 
@@ -16,6 +17,21 @@ if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
   // We are in server or no Metamask installed
   const provider = new Web3.providers.HttpProvider(process.env.RINKEBY_URL);
   web3 = new Web3(provider);
+}
+
+/** Listener for account change in metamask */
+if (web3.currentProvider.publicConfigStore) {
+  web3.currentProvider.publicConfigStore.on(
+    "update",
+    async ({ selectedAddress, networkVersion }) => {
+      const snapshot = await db
+        .ref("/users/" + selectedAddress.toLowerCase())
+        .once("value");
+      if (snapshot.val() == null) {
+        Router.push("/login");
+      }
+    }
+  );
 }
 
 export default web3;
