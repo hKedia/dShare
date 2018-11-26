@@ -6,6 +6,7 @@ import FileInstance from "../ethereum/fileInstance";
 import { getMultihashFromBytes32 } from "../utils/multihash";
 import EthCrypto from "eth-crypto";
 import { decrypt } from "../utils/crypto";
+import { toast } from "react-toastify";
 
 const FileSaver = require("file-saver");
 
@@ -100,10 +101,17 @@ class FileDownload extends Component {
     this.setState({ loading: true });
 
     /** Decrypt the key using user's private key */
-    const decryptedKey = await EthCrypto.decryptWithPrivateKey(
-      this.state.userPrivateKey,
-      this.state.encryptedKey
-    );
+    let decryptedKey;
+    try {
+      decryptedKey = await EthCrypto.decryptWithPrivateKey(
+        this.state.userPrivateKey,
+        this.state.encryptedKey
+      );
+    } catch (error) {
+      toast.error("Invalid Private Key");
+      this.setState({ loading: false });
+      return;
+    }
 
     /** Convert key into valid jwk format */
     const key = await window.crypto.subtle.importKey(

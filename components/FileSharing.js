@@ -93,10 +93,17 @@ class FileSharing extends Component {
     console.log("fileEncryptedkey", this.state.fileEncryptedkey);
 
     // Decrypt the file key using user's private key
-    const decryptedKey = await EthCrypto.decryptWithPrivateKey(
-      this.state.userPrivateKey,
-      this.state.fileEncryptedkey
-    );
+    let decryptedKey;
+    try {
+      decryptedKey = await EthCrypto.decryptWithPrivateKey(
+        this.state.userPrivateKey,
+        this.state.fileEncryptedkey
+      );
+    } catch (error) {
+      toast.error("Invalid Private Key");
+      this.setState({ loading: false });
+      return;
+    }
     console.log("decryptedKey", JSON.parse(decryptedKey));
 
     // Encrypt the file key using recipient's public key
