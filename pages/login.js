@@ -34,7 +34,9 @@ class Login extends Component {
     }
 
     if ((await web3.eth.net.getNetworkType()) != "rinkeby") {
-      window.alert("Please Connect to Rinkeby Network");
+      window.alert(
+        "Please Connect to Rinkeby Network. When changing network, the page will try to reload, please cancel."
+      );
       return;
     }
     let accounts;
