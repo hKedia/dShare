@@ -15,6 +15,14 @@ class Login extends Component {
     loading: false
   };
 
+  componentDidMount() {
+    window.onbeforeunload = function(e) {
+      var dialogText = "Screw the MetaMask";
+      e.returnValue = dialogText;
+      return dialogText;
+    };
+  }
+
   /**
    * Function to handle user interaction with the login button
    */
