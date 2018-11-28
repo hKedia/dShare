@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "10.x"
+    "node": "10.10.0",
+    "npm": "6.4.1"
   },
   "scripts": {
     "test": "mocha",
@@ -27,7 +28,7 @@
     "file-type": "^10.5.0",
     "firebase": "^5.5.9",
     "fs-extra": "^7.0.1",
-    "ganache-cli": "^6.2.1",
+    "ganache-cli": "^6.2.3",
     "ipfs-api": "^24.0.2",
     "isomorphic-unfetch": "^3.0.0",
     "mocha": "^5.2.0",
