@@ -70,15 +70,11 @@ class Login extends Component {
       .once("value");
     const userPublicKey = snapshot.val() && snapshot.val().public_key;
 
-    if (userPublicKey) {
-      console.log("user exist");
-    } else {
-      console.log("Adding user ...");
+    if (!userPublicKey) {
       await db.ref("users/" + publicAddress.toLowerCase()).set({
         public_key: publicKey
       });
     }
-    console.log("Redirecting...");
     Router.push("/files/");
   };
 

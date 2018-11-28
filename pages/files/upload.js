@@ -63,7 +63,6 @@ class FileUpload extends Component {
 
   createFile = async (fileIpfsHash, sha256hash) => {
     const { digest, hashFunction, size } = getBytes32FromMultiash(fileIpfsHash);
-    console.log(`digest:${digest}  hashFunction:${hashFunction} size:${size}`);
 
     try {
       await factory.methods
@@ -91,43 +90,34 @@ class FileUpload extends Component {
     // get default account
     const accounts = await web3.eth.getAccounts();
     this.setState({ account: accounts[0] });
-    console.log("account", this.state.account);
 
     // get the sha256 hash of file
     const sha256hash = await sha256(this.state.buffer);
-    console.log("sha256hash", sha256hash);
 
     // create timestamp
     const fileTimestamp = await createTimeStamp(sha256hash, this.state.email);
-    console.log("email", this.state.email);
-    console.log("timestamp", fileTimestamp.data);
 
     // encrypt the file
     const { data, iv, key } = await encrypt(this.state.buffer);
     const dataArray = new Uint8Array(data);
-    console.log("dataArray", dataArray);
 
     //combine the data and random value
     const data_iv = new Uint8Array([...dataArray, ...iv]);
-    console.log("data_iv", data_iv);
 
     //encryption key in JSON
     const keyData = await window.crypto.subtle.exportKey("jwk", key);
-    console.log("keyData", keyData);
 
     // getting the public key
     const snapshot = await db
       .ref("/users/" + this.state.account.toLowerCase())
       .once("value");
     const publicKey = snapshot.val() && snapshot.val().public_key;
-    console.log("publicKey", publicKey);
 
     //encrypt the document key with user's ethereum public key
     const encryptedKey = await EthCrypto.encryptWithPublicKey(
       publicKey,
       Buffer.from(JSON.stringify(keyData))
     );
-    console.log(encryptedKey);
 
     //Contruct the data to be uploaded to ipfs
     const ipfsPayload = [
@@ -147,7 +137,6 @@ class FileUpload extends Component {
         console.error(err);
         return;
       }
-      console.log(res);
       this.setState({ fileIpfsHash: res[2].hash }, () => {
         this.createFile(this.state.fileIpfsHash, sha256hash); // save the hash of directory in contract
       });

@@ -1,5 +1,6 @@
 import Web3 from "web3";
 import db from "../utils/firebase";
+import Router from "next/router";
 
 let web3;
 
@@ -24,9 +25,15 @@ if (web3.currentProvider.publicConfigStore) {
   web3.currentProvider.publicConfigStore.on(
     "update",
     async ({ selectedAddress, networkVersion }) => {
-      const snapshot = await db
-        .ref("/users/" + selectedAddress.toLowerCase())
-        .once("value");
+      let snapshot;
+      /** Handling the case when metamask is locked */
+      try {
+        snapshot = await db
+          .ref("/users/" + selectedAddress.toLowerCase())
+          .once("value");
+      } catch (error) {
+        return;
+      }
       if (snapshot.val() == null) {
         Router.push("/login");
       }

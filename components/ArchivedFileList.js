@@ -35,7 +35,6 @@ class ArchivedFileList extends Component {
       return archivedFiles.includes(item);
     });
 
-    console.log("Archived Files:", archivedFiles);
     this.setState({ archivedFiles: archivedFiles, loadingFiles: false });
   };
 

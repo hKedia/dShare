@@ -16,7 +16,6 @@ class StopSharing extends Component {
 
   stopSharing = async () => {
     this.setState({ loading: true });
-    console.log("Stop Sharing For", this.props.recipient);
 
     /** The File contract address */
     const fileInstance = File(this.props.address);
@@ -28,7 +27,6 @@ class StopSharing extends Component {
 
     /** Get the index of file contract in the sharedFiles array */
     const indexFactoryOwner = sharedFiles.indexOf(this.props.address);
-    console.log("Index Factory Owner", indexFactoryOwner);
 
     /** Get the files for a given recipient */
     const recipientFiles = await factory.methods
@@ -37,7 +35,6 @@ class StopSharing extends Component {
 
     /** Get the index of file contract inthe recipientFiles array */
     const indexFactoryRecipient = recipientFiles.indexOf(this.props.address);
-    console.log("Index Factory Recipient", indexFactoryRecipient);
 
     /** Get the recipient list for the given file */
     const recipientsList = await fileInstance.methods
@@ -46,7 +43,6 @@ class StopSharing extends Component {
 
     /** Get the index of the recipient from which sharing needs to be stopped */
     const indexFileRecipient = recipientsList.indexOf(this.props.recipient);
-    console.log("Index File Recipient", indexFileRecipient);
 
     try {
       /** Calls the stopSharing() in File contract with all the indexed of file contract

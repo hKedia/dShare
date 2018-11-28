@@ -62,7 +62,6 @@ class FileSharing extends Component {
     const recipientsList = await fileInstance.methods
       .getRecipientsList()
       .call({ from: accounts[0] });
-    console.log("Recipients List", recipientsList);
     this.setState({ recipientsList });
   };
 
@@ -73,7 +72,6 @@ class FileSharing extends Component {
 
   onSubmit = async event => {
     event.preventDefault();
-    console.log("recipient", this.state.recipient);
 
     this.setState({ loading: true });
 
@@ -89,8 +87,6 @@ class FileSharing extends Component {
       return;
     }
     const recipientPublicKey = snapshot.val() && snapshot.val().public_key;
-    console.log("recipientPublicKey", recipientPublicKey);
-    console.log("fileEncryptedkey", this.state.fileEncryptedkey);
 
     // Decrypt the file key using user's private key
     let decryptedKey;
@@ -104,14 +100,12 @@ class FileSharing extends Component {
       this.setState({ loading: false });
       return;
     }
-    console.log("decryptedKey", JSON.parse(decryptedKey));
 
     // Encrypt the file key using recipient's public key
     const keyForSharing = await EthCrypto.encryptWithPublicKey(
       recipientPublicKey,
       Buffer.from(JSON.stringify(JSON.parse(decryptedKey)))
     );
-    console.log("Encrypted key for sharing", keyForSharing);
 
     // Contruct the ipfs payload
     const ipfsPayload = [
@@ -124,10 +118,8 @@ class FileSharing extends Component {
     // uploading to ipfs
     await ipfs.files.add(ipfsPayload, (err, res) => {
       if (err) {
-        console.log(err);
         return;
       }
-      console.log("ipfs result", res);
       this.setState({ keyIpfsHash: res[0].hash }, () => {
         this.shareFile(this.state.keyIpfsHash);
       });
@@ -141,7 +133,6 @@ class FileSharing extends Component {
 
   shareFile = async keyIpfsHash => {
     const { digest, hashFunction, size } = getBytes32FromMultiash(keyIpfsHash);
-    console.log(`digest:${digest}  hashFunction:${hashFunction} size:${size}`);
 
     const fileInstance = File(this.props.address);
 

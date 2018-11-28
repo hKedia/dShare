@@ -33,7 +33,6 @@ class SharedFileList extends Component {
     sharedFiles = sharedFiles.filter(item => {
       return !archivedFiles.includes(item);
     });
-    console.log("Shared Files:", sharedFiles);
     this.setState({ sharedFiles: sharedFiles, loadingFiles: false });
   };
 

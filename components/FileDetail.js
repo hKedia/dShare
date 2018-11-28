@@ -40,8 +40,6 @@ class FileDetail extends Component {
       });
     }
 
-    console.log("Returned IPFS Hash:", returnedHash);
-
     const ipfsHash = {
       digest: returnedHash[0],
       hashFunction: returnedHash[1],
@@ -71,8 +69,6 @@ class FileDetail extends Component {
    */
 
   archiveFile = async () => {
-    console.log("Archive File.");
-
     this.setState({ loading: true });
     try {
       await this.state.fileInstance.methods
@@ -89,14 +85,11 @@ class FileDetail extends Component {
   /** Restores a previously archived file */
 
   restoreFile = async () => {
-    console.log("Restore File");
-
     this.setState({ loading: true });
     const archivedFiles = await factory.methods
       .getArchivedFiles()
       .call({ from: this.state.account });
     const index = archivedFiles.indexOf(this.props.address);
-    console.log("index", index);
 
     try {
       await this.state.fileInstance.methods

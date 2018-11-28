@@ -13,9 +13,7 @@ class FileView extends Component {
   static async getInitialProps(props) {
     const fileContract = props.query.fileContract;
     const isShared = Number(props.query.isShared);
-    console.log("shared", isShared);
     const isArchived = Number(props.query.isArchived);
-    console.log("archived", isArchived);
     return { fileContract, isShared, isArchived };
   }
   render() {

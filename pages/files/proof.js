@@ -55,7 +55,6 @@ class TimestampProof extends Component {
     this.setState({ loading: true });
 
     const filehash = await sha256(this.state.buffer);
-    console.log("filehash", filehash);
 
     const proof = await getTimestampProof(filehash);
 

@@ -29,31 +29,21 @@ class FileIndex extends Component {
       .getRecipientFiles()
       .call({ from: accounts[0] });
 
-    console.log("Recipient Files", recipientFiles);
-
     let uploadedFiles = await factory.methods
       .getUploadedFiles()
       .call({ from: accounts[0] });
-
-    console.log("Uploaded Files", uploadedFiles);
 
     const archivedFiles = await factory.methods
       .getArchivedFiles()
       .call({ from: accounts[0] });
 
-    console.log("Archived Files", archivedFiles);
-
     recipientFiles = recipientFiles.filter(item => {
       return !archivedFiles.includes(item);
     });
 
-    console.log("Recipient - Archived", recipientFiles);
-
     uploadedFiles = uploadedFiles.filter(item => {
       return !archivedFiles.includes(item);
     });
-
-    console.log("Uploaded - Archived", uploadedFiles);
 
     this.setState({
       recipientFiles: recipientFiles,
