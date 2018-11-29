@@ -136,6 +136,9 @@ class FileSharing extends Component {
 
     const fileInstance = File(this.props.address);
 
+    /** Try to share file by calling shareFile().
+     * If user rejects the transaction, then throw error
+     */
     try {
       await fileInstance.methods
         .shareFile(this.state.recipient, digest, hashFunction, size)
@@ -150,6 +153,7 @@ class FileSharing extends Component {
 
   render() {
     let recipientsListComponent = null;
+    /** If file is shared, then construct the component to show the recipients */
     if (this.state.recipientsList.length > 0) {
       const cells = this.state.recipientsList.map(recipient => {
         return (

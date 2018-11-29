@@ -26,6 +26,7 @@ class FileTimestampDetail extends Component {
     });
     this.setState({ sha3hash: returnedHash.slice(2) });
 
+    /** Retrieve the timestamp details using the OriginStamp API */
     const returnedData = await timestampStatus(this.state.sha3hash);
     const timestamp = returnedData.data.timestamps[0];
 

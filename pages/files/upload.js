@@ -9,7 +9,6 @@ import { createTimeStamp } from "../../utils/OriginStamp";
 import { sha256 } from "../../utils/sha256";
 import { encrypt } from "../../utils/crypto";
 import Router from "next/router";
-import ethUtil from "ethereumjs-util";
 import EthCrypto from "eth-crypto";
 import db from "../../utils/firebase";
 import { toast } from "react-toastify";
@@ -95,7 +94,12 @@ class FileUpload extends Component {
     const sha256hash = await sha256(this.state.buffer);
 
     // create timestamp
-    const fileTimestamp = await createTimeStamp(sha256hash, this.state.email);
+    try {
+      await createTimeStamp(sha256hash, this.state.email);
+    } catch (error) {
+      toast.error("Error in creating timestamp");
+      return;
+    }
 
     // encrypt the file
     const { data, iv, key } = await encrypt(this.state.buffer);

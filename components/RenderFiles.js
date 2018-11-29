@@ -10,6 +10,7 @@ class RenderFiles extends Component {
   render() {
     const items = this.props.files.map(address => {
       return {
+        /** Check the local storage for filename, if not, then show the contract address for the file */
         header: localStorage.getItem(address) || address,
         description: (
           <Link

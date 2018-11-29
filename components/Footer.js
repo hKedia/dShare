@@ -10,7 +10,10 @@ class Footer extends Component {
   };
   /** Gets the current account and current network user is connected to */
   componentDidMount = async () => {
+    /** Retrieve the current account */
     const accounts = await web3.eth.getAccounts();
+
+    /** Retrieve the current connected network */
     const network = await web3.eth.net.getNetworkType();
     let account = accounts[0];
     this.setState({ account, network });

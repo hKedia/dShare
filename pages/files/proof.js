@@ -54,13 +54,16 @@ class TimestampProof extends Component {
 
     this.setState({ loading: true });
 
+    /** Get the sha256 hash of the file */
     const filehash = await sha256(this.state.buffer);
 
+    /** Retreive the timestamp proof of the hash using the OriginStamp API */
     const proof = await getTimestampProof(filehash);
 
     if (proof === undefined) {
       toast.error("No proof found for the submitted file");
     } else {
+    /** If proof exists, then download it to the disk */
       const { reader, filename } = proof;
       const data = await reader.read();
       const file = new File([data.value], filename);

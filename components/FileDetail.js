@@ -30,16 +30,19 @@ class FileDetail extends Component {
     const accounts = await web3.eth.getAccounts();
     const fileInstance = File(this.props.address);
     let returnedHash;
+    /** If uploaded file is viewed, then call the getFileDetail() */
     if (!this.props.isShared) {
       returnedHash = await fileInstance.methods.getFileDetail().call({
         from: accounts[0]
       });
+      /** If shared file is viewed, then call the getSharedFileDetail() */
     } else {
       returnedHash = await fileInstance.methods.getSharedFileDetail().call({
         from: accounts[0]
       });
     }
 
+    /** Combine the retrieved data to contruct the IPFS hash */
     const ipfsHash = {
       digest: returnedHash[0],
       hashFunction: returnedHash[1],
@@ -75,7 +78,7 @@ class FileDetail extends Component {
         .archiveFile()
         .send({ from: this.state.account });
 
-      Router.push("/files/archivedFiles");
+      Router.push("/files/");
     } catch (error) {
       toast.error(error.message);
     }
@@ -91,6 +94,7 @@ class FileDetail extends Component {
       .call({ from: this.state.account });
     const index = archivedFiles.indexOf(this.props.address);
 
+    /** Try to call the restoreFile(). If user reject transaction, throw error */
     try {
       await this.state.fileInstance.methods
         .restoreFile(index)

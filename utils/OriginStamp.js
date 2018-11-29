@@ -97,6 +97,7 @@ export function getTimestampProof(filehash) {
     /** Read the response headers */
     const headerContent = response.headers.get("content-disposition");
 
+    /** Check for existence of proof for the submitted hash */
     if (headerContent === null) {
       return;
     }

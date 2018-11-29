@@ -15,6 +15,7 @@ class Login extends Component {
     loading: false
   };
 
+  /** Preventing page reload when network is changed in metamask */
   componentDidMount() {
     window.onbeforeunload = function(e) {
       var dialogText = "Screw the MetaMask";
@@ -33,6 +34,7 @@ class Login extends Component {
       return;
     }
 
+    /** Check if web3 provider is connected to the rinkeby network */
     if ((await web3.eth.net.getNetworkType()) != "rinkeby") {
       window.alert(
         "Please Connect to Rinkeby Network. When changing network, the page will try to reload, please cancel."
@@ -80,6 +82,7 @@ class Login extends Component {
       .once("value");
     const userPublicKey = snapshot.val() && snapshot.val().public_key;
 
+    /** If the public key does not exist then save it to the database */
     if (!userPublicKey) {
       await db.ref("users/" + publicAddress.toLowerCase()).set({
         public_key: publicKey

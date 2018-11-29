@@ -34,11 +34,14 @@ class FileDownload extends Component {
     let returnedHash;
     let fileHash;
     let keyHash;
+    /** Depending on whether the viewed file is a uploaded or shared one,
+     * call the respective function from file contract to retrieve file details */
     if (!this.props.shared) {
       returnedHash = await fileInstance.methods.getFileDetail().call({
         from: accounts[0]
       });
 
+      /** Convert the retrived hash to multihash format */
       fileHash = getMultihashFromBytes32({
         digest: returnedHash[0],
         hashFunction: returnedHash[1],
@@ -54,12 +57,14 @@ class FileDownload extends Component {
         from: accounts[0]
       });
 
+      /** IPFS hash of the file */
       fileHash = getMultihashFromBytes32({
         digest: returnedHash[0],
         hashFunction: returnedHash[1],
         size: returnedHash[2]
       });
 
+      /** IPFS hash of the respective key */
       keyHash = getMultihashFromBytes32({
         digest: returnedHash[3],
         hashFunction: returnedHash[4],
@@ -71,7 +76,7 @@ class FileDownload extends Component {
 
     this.setState({ account: accounts[0] });
 
-    // Retrieve the File Name
+    /** Retrieve the File Name */
     await ipfs.files.get(this.state.fileIpfsPath, (err, files) => {
       if (err) {
         throw err;
@@ -82,7 +87,7 @@ class FileDownload extends Component {
       });
     });
 
-    // Retrive the encrypted key
+    /** Retrive the encrypted key */
     await ipfs.files.cat(this.state.keyIpfsPath, (err, file) => {
       if (err) {
         throw err;

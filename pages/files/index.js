@@ -25,22 +25,27 @@ class FileIndex extends Component {
     this.setState({ loadingFiles: true });
     const accounts = await web3.eth.getAccounts();
 
+    /** Get the shared files from factory contract */
     let recipientFiles = await factory.methods
       .getRecipientFiles()
       .call({ from: accounts[0] });
 
+    /** Get the uploaded files from factory contract */
     let uploadedFiles = await factory.methods
       .getUploadedFiles()
       .call({ from: accounts[0] });
 
+    /** Get the archieved files from the factory contract */
     const archivedFiles = await factory.methods
       .getArchivedFiles()
       .call({ from: accounts[0] });
 
+    /** Filter the shared files from archived files */
     recipientFiles = recipientFiles.filter(item => {
       return !archivedFiles.includes(item);
     });
 
+    /** Filter the uploaded files from archieved files */
     uploadedFiles = uploadedFiles.filter(item => {
       return !archivedFiles.includes(item);
     });
@@ -53,6 +58,7 @@ class FileIndex extends Component {
   };
   render() {
     let uploadedFiles, recipientFiles;
+    /** If no files found, the display the NoFilesFound component */
     if (this.state.uploadedFiles.length === 0) {
       uploadedFiles = <NoFilesFound />;
     } else {
