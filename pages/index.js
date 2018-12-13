@@ -6,7 +6,8 @@ import {
   Button,
   Grid,
   Image,
-  Icon
+  Icon,
+  Header
 } from "semantic-ui-react";
 import Link from "next/link";
 
@@ -24,7 +25,9 @@ class Index extends Component {
           <Grid.Row verticalAlign="middle">
             <Grid.Column width={10}>
               <Segment textAlign="center">
-                Welcome to dShare - A decentralized file sharing application
+                <Header as="h4">
+                  Welcome to dShare - A decentralized file sharing application
+                </Header>
               </Segment>
             </Grid.Column>
             <Grid.Column width={3}>
@@ -45,77 +48,103 @@ class Index extends Component {
 
           <Grid.Row>
             <Grid.Column>
-              <Segment size="big" padded>
-                <Image
-                  src="/static/bitcoin-icon.png"
-                  floated="left"
-                  size="tiny"
-                  href="https://bitcoin.org/"
-                />
-                <p>
-                  dShare is a decentralized file sharing application with
-                  immutable timestamping built using Bitcoin, Ethereum and IPFS
-                  technologies.
-                </p>
-                <p>
-                  When a user uploads a file, it's first encrypted and then
-                  uploaded to the IPFS network. The key used for encrypting the
-                  file is then encrypted with the Ethereum public key of the
-                  uploader. Once encrypted, the key is also uploaded to the IPFS
-                  network.
-                </p>
-              </Segment>
+              <Segment.Group>
+                <Segment textAlign="center" size="big">
+                  <p>File Upload</p>
+                </Segment>
+                <Segment>
+                  <Image src="/static/upload.png" centered />
+                </Segment>
+              </Segment.Group>
             </Grid.Column>
           </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <Segment size="big" padded>
-                <Image
-                  src="/static/ethereum-icon.png"
-                  floated="right"
-                  size="tiny"
-                  href="https://www.ethereum.org/"
-                />
-                <p>
-                  Once the file is successfully uploaded, it can be shared with
-                  any Ethereum address.
-                </p>
 
-                <p>
-                  When a user shares a file, the key used for encrypting the
-                  file is downloaded from the IPFS network. Once the key is
-                  downloaded, it's decrypted using uploader's private key and
-                  encrypted again with the recipient's public Ethereum key.
-                  After this it's again uploaded to the IPFS network.
-                </p>
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Segment size="big" padded>
-                <Image
-                  src="/static/ipfs-icon.png"
-                  floated="left"
-                  size="tiny"
-                  href="https://ipfs.io/"
-                />
-                <p>
-                  IPFS references of files and their key is facilitated through
-                  the Smart contract which is deployed on the Ethereum (Rinkeby)
-                  network.
-                </p>
-                <p>
-                  An Immutable timestamp of the file is created by submitting
-                  the SHA-256 hash of the file to the Bitcoin blockchain using
-                  the <a href="https://originstamp.org/">OriginStamp</a> API.
-                </p>
-                <p>
-                  If you would like to check out the source code, then head over
-                  to the project's{" "}
-                  <a href="https://github.com/hKedia/dShare">Github repo.</a>
-                </p>
-              </Segment>
+              <Segment.Group>
+                <Segment textAlign="center" size="big">
+                  <p>
+                    This Application combines below technologies to enable a
+                    secure information exchange using Blockchain
+                  </p>
+                </Segment>
+                <Segment.Group horizontal>
+                  <Segment textAlign="center">
+                    <Image.Group size="tiny">
+                      <Image
+                        src="/static/originstamp-icon.png"
+                        spaced
+                        href="https://originstamp.org/home"
+                      />
+                      <Image
+                        src="/static/bitcoin-icon.png"
+                        spaced
+                        href="https://bitcoin.org/en/"
+                      />
+                    </Image.Group>
+                    <p>
+                      OriginStamp: Creates Immutable timestamps by submitted the
+                      hash of uploaded file to the bitcoin blockchain
+                    </p>
+                  </Segment>
+                  <Segment textAlign="center">
+                    <Image
+                      src="/static/ethereum-icon.png"
+                      size="tiny"
+                      centered
+                      spaced
+                      href="https://www.ethereum.org/"
+                    />
+                    <p>
+                      Ethereum: Smart Contract for exchanging encrypted document
+                      keys
+                    </p>
+                  </Segment>
+                  <Segment textAlign="center">
+                    <Image
+                      src="/static/ipfs-icon.png"
+                      size="tiny"
+                      centered
+                      spaced
+                      href="https://ipfs.io/"
+                    />
+                    <p>
+                      IPFS: P2P storage where encrypted files and their keys are
+                      uploaded
+                    </p>
+                  </Segment>
+                </Segment.Group>
+              </Segment.Group>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Segment.Group>
+                <Segment textAlign="center" size="big">
+                  <p>File Sharing</p>
+                </Segment>
+                <Segment>
+                  <Image src="/static/share.png" centered />
+                </Segment>
+              </Segment.Group>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Segment.Group>
+                <Segment textAlign="center" size="big">
+                  <p>Using the Application</p>
+                </Segment>
+                <Segment>
+                  <Image src="/static/connect-to-metamask.png" centered />
+                </Segment>
+
+                <Segment>
+                  <Image src="/static/app-login-prompt.png" centered />
+                </Segment>
+              </Segment.Group>
             </Grid.Column>
           </Grid.Row>
         </Grid>
