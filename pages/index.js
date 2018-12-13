@@ -50,6 +50,19 @@ class Index extends Component {
             <Grid.Column>
               <Segment.Group>
                 <Segment textAlign="center" size="big">
+                  <p>File Upload</p>
+                </Segment>
+                <Segment>
+                  <Image src="/static/upload.png" centered />
+                </Segment>
+              </Segment.Group>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Segment.Group>
+                <Segment textAlign="center" size="big">
                   <p>
                     This Application combines below technologies to enable a
                     secure information exchange using Blockchain
@@ -101,6 +114,19 @@ class Index extends Component {
                     </p>
                   </Segment>
                 </Segment.Group>
+              </Segment.Group>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Segment.Group>
+                <Segment textAlign="center" size="big">
+                  <p>File Sharing</p>
+                </Segment>
+                <Segment>
+                  <Image src="/static/share.png" centered />
+                </Segment>
               </Segment.Group>
             </Grid.Column>
           </Grid.Row>
