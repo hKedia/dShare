@@ -3,44 +3,46 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: report.aux
 The style file: acm.bst
 Database file #1: report.bib
-You've used 1 entry,
+Warning--empty journal in wilkinson2014storj
+You've used 4 entries,
             2253 wiz_defined-function locations,
-            530 strings with 3953 characters,
-and the built_in function-call counts, 256 in all, are:
-= -- 20
-> -- 12
+            543 strings with 4380 characters,
+and the built_in function-call counts, 1001 in all, are:
+= -- 87
+> -- 58
 < -- 0
-+ -- 5
-- -- 4
-* -- 14
-:= -- 47
-add.period$ -- 2
-call.type$ -- 1
-change.case$ -- 5
++ -- 24
+- -- 20
+* -- 66
+:= -- 183
+add.period$ -- 10
+call.type$ -- 4
+change.case$ -- 22
 chr.to.int$ -- 0
-cite$ -- 1
-duplicate$ -- 8
-empty$ -- 24
-format.name$ -- 4
-if$ -- 51
+cite$ -- 5
+duplicate$ -- 34
+empty$ -- 75
+format.name$ -- 20
+if$ -- 196
 int.to.chr$ -- 0
-int.to.str$ -- 1
-missing$ -- 0
-newline$ -- 7
-num.names$ -- 2
-pop$ -- 10
+int.to.str$ -- 4
+missing$ -- 3
+newline$ -- 21
+num.names$ -- 8
+pop$ -- 25
 preamble$ -- 1
-purify$ -- 4
+purify$ -- 18
 quote$ -- 0
-skip$ -- 8
+skip$ -- 25
 stack$ -- 0
-substring$ -- 5
-swap$ -- 2
+substring$ -- 20
+swap$ -- 7
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 4
-warning$ -- 0
-while$ -- 2
-width$ -- 2
-write$ -- 10
+type$ -- 16
+warning$ -- 1
+while$ -- 8
+width$ -- 5
+write$ -- 35
+(There was 1 warning)
