@@ -6,28 +6,28 @@ abstract: |
     party with our data thus exposing it to manipulation risks. Hence, a
     decentralized application was required to overcome the problems posed by
     a central application. With the recent developments in Blockchain
-    technology and P2P storage, it's possible to securely store and share
-    data without using any central service.
+    technology and P2P storage, it is possible to securely store and share
+    data without using any central server.
 
     This report outlines my master's project which is about securing
     information exchange using Blockchains. I describe here the workings of
     my application *dShare* built using P2P technologies enabling a secure
     way of storing and sharing data between two individuals or entities.
 
-    For storing files, I use InterPlanetary File System (IPFS), which is a
-    P2P file storage protocol. Before uploading to the IPFS network, files
-    are encrypted using AES-GCM encryption mechanism. Sharing of keys is
-    facilitated using smart contracts built on Ethereum, thus files can be
-    shared by anyone having a Ethereum address. Finally, for immutable
+    For storing files, I used the InterPlanetary File System (IPFS), which
+    is a P2P file storage protocol. Before uploading to the IPFS network,
+    files are encrypted using AES-GCM encryption mechanism. Sharing of keys
+    is facilitated using smart contracts built on Ethereum; thus files can
+    be shared by anyone having an Ethereum address. Finally, for immutable
     timestamping, OriginStamp is used, which submits a file's hash to the
     Bitcoin blockchain.
 
     I implemented the front-end using React.js, a JavaScript framework.
     Solidity was used to write smart contracts and deployed on the Ethereum
-    test network (Rinkeby). Next.js was used for server side rendering (SSR)
-    and Firebase was used as a database for storing public Ethereum key of
-    the users. Latest version of the application is deployed on Heroku at
-    <https://file-share-dapp.herokuapp.com/>.
+    test network (Rinkeby). Next.js was used for server-side rendering
+    (SSR), and Firebase was used as a database for storing public Ethereum
+    key of the users. The latest version of the application is deployed on
+    Heroku at <https://file-share-dapp.herokuapp.com/>.
 author:
 - Harsh Kedia
 bibliography:
@@ -35,50 +35,80 @@ bibliography:
 title: 'Project Report - Securing Information Exchange with Blockchain'
 ---
 
+**Securing Information Exchange with Blockchain**
+
+Project Report
+
+by\
+Harsh Kedia
+
+Supervisor: Thomas Hepp\
+Examiner: Prof. Dr. Bela Gipp
+
+Department of Computer and Information Science\
+Information Science Group\
+University Of Konstanz\
+
 Project Motivation
 ==================
 
-Today's supply chain spans multiple geographies but the documents
+Today's supply chain spans multiple geographies, but the documents
 involved in the industry such as delivery certificates are still in
 physical form. This paperwork prevents manipulations but leads to
-various delays across the whole chain, thus affecting everyone involved.
+various delays across the whole chain, thus affecting everyone
+involved[^1].
 
-Above problem can be solved by digitizing all documents, time-stamping
-them using a trusted Time stamping authority (TSA) and upload them to a
-cloud service. However, the tools used to accomplish this solution are
-central services, and, therefore, suffers from data manipulations by a
-3rd party.
+The above problem can be solved by digitizing all documents,
+time-stamping them using a trusted Time stamping authority (TSA) and
+upload them to a cloud service. However, the tools used to accomplish
+this solution are central services, and, therefore, suffers from data
+manipulations by a 3rd party.
 
 We, therefore, need a solution that is peer-to-peer (P2P) and
-decentralized. Blockchain offer a means of decentralized time stamping
+decentralized. Blockchain offers a means of decentralized time stamping
 and enables peer-to-peer storage systems that are resistant to
 manipulations by any 3rd party.
 
 This project describes the working of an application build using
-decentralized technologies such as Bitcoin, Ethereum and IPFS such that
-it's capable of immutable timestamping and secure file sharing in a P2P
+decentralized technologies such as Bitcoin[@nakamoto2008bitcoin],
+Ethereum[@buterin2014next] and IPFS[@benet2014ipfs] such that it is
+capable of immutable timestamping and secure file sharing in a P2P
 manner.
 
 Related Work
 ============
 
-Below is a list of related work in immutable timestamping and
-decentralized storage explored as part of the project.
+Trusted timestamping is a way of verifying that specific information
+existed at a given point in time. Blockchains enables anchoring of data
+utilizing cryptocurrency transactions where each transaction gets an
+immutable timestamp.
+
+Blockchains also enables the creation of smart contracts. Smart
+contracts are computer codes stored on the blockchain encoding the terms
+of a contract. It helps in negotiating and enforcing an agreement
+without any third parties involved.
+
+Finally, P2P protocols such as BitTorrent[@levin2008bittorrent],
+Distributed Hash Tables (DHT), and Git enables us to secure information
+distributes across multiple computers.
+
+Below sections explore the state-of-the-art in decentralized
+timestamping and decentralized storage.
 
 Proof of Existence
 ------------------
 
-Proof of Existence[^1] is a web based service that implements the
+Proof of Existence[^2] is a web-based service that implements the
 concept of immutable timestamping using the Bitcoin blockchain. It
 notarizes data in the blockchain by submitting the hash of the data in a
-Bitcoin transaction. Currently, the service required 0.00025BTC[^2] for
+Bitcoin transaction. Currently, the service required 0.00025BTC[^3] for
 every certification which makes it expensive to timestamp large volumes
 of data.
 
 OriginStamp
 -----------
 
-OriginStamp[@gipp2015decentralized][^3] extends the concept of Proof of
+OriginStamp[@gipp2015decentralized][^4] extends the concept of Proof of
 Existence by providing a scalable protocol which overcomes the
 transaction limitations of the Bitcoin blockchain.
 
@@ -93,8 +123,8 @@ and the timestamp permanently to the Bitcoin blockchain.
 Chainpoint
 ----------
 
-Chainpoint[^4] works similarly to OriginStamp. The service runs on the
-Tierion[^5] Network, providing a scalable protocol for anchoring data in
+Chainpoint[^5] works similarly to OriginStamp. The service runs on the
+Tierion[^6] Network, providing a scalable protocol for anchoring data in
 the blockchain and generating blockchain receipts. These receipts are
 called chainpoint proofs which defines a path of operations that
 cryptographically links the data to one or more blockchains.
@@ -102,30 +132,30 @@ cryptographically links the data to one or more blockchains.
 Sia
 ---
 
-Sia[@vorick2014sia] is a decentralized cloud storage system that allow
-its users to rent storage among peers by means of storage contracts
-which are cryptographically secured by saving on a blockchain. This
-makes the storage contracts tamper-proof and publicaly auditable.
+Sia[@vorick2014sia] is a decentralized cloud storage system that allows
+its users to rent storage among peers utilizing storage contracts which
+are cryptographically secured by saving on a blockchain. This makes the
+storage contracts tamper-proof and publicly auditable.
 
-To ensure that storage provider holds a client's data at a given time,
-they constantly need to submit storage proofs. The network consensus
-allows automatic verification of storage proofs and enforcement of
-storage contracts. The availability of data is ensured using redundancy
-techniques such as erasure codes.
+To ensure that the storage provider holds a client's data at a given
+time, they constantly need to submit storage proofs. The network
+consensus allows automatic verification of storage proofs and
+enforcement of storage contracts. The availability of data is ensured
+using redundancy techniques such as erasure codes.
 
-Sia uses a variant of Bitcoin blockchain for storing the contracts and
-the user must use Siacoin, an ERC-20 token in order to transact on the
-Sia network.
+Sia uses a variant of Bitcoin blockchain for storing the contracts, and
+the user must use Siacoin, an ERC-20[^7] token in order to transact on
+the Sia network.
 
 Storj
 -----
 
-Storj[@wilkinson2014storj] works similarly to Sia. It's built on
-Kademlia DHT, connecting peers who can transact with each other. A
-transaction can involve negotiation of storage contract, transfer of
-data, verifying remote data, download data or payments to other nodes.
-Each peer is capable of doing transactions independently without any
-human involvement.
+Storj[@wilkinson2014storj] works similarly to Sia. It is built on
+Kademlia[@maymounkov2002kademlia] DHT, connecting peers who can transact
+with each other. A transaction can involve negotiation of storage
+contract, transfer of data, verifying remote data, download data or
+payments to other nodes. Each peer is capable of doing transactions
+independently without any human involvement.
 
 Storj uses the Ethereum blockchain for managing its storage contracts.
 They are stored as versioned data structure describing the relationship
@@ -139,16 +169,18 @@ Unlike Sia and Storj, IPFS[@benet2014ipfs] is a P2P file transfer
 protocol which connects all peers in the network by a shared file
 system. It achieves this by combining previous peer-to-peer systems such
 as DHT, BitTorrent, and Git. The data in the IPFS network are modeled as
-a Merkle DAG thus providing a throughput storage system with
-content-addressed hyperlinks.
+a Merkle[@merkle1980protocols] DAG thus providing a throughput storage
+system with content-addressed hyperlinks.
 
 To transact on the IPFS network, a user does not need any tokens.
 
 Approach
 ========
 
-Below is a comparison between different timestamping methods and
-decentralized storage techniques explored above.
+This section compares the current state-of-the-art in decentralized
+timestamping and decentralized storage and provides an approach for
+building a secure information exchange overcoming the limitations of the
+existing systems.
 
 ![Comparing Decentralized
 Timestamping[]{label="fig:comparison-timestamping"}](comparison-timestamping.png){#fig:comparison-timestamping
@@ -157,9 +189,9 @@ width="\linewidth"}
 Comparing the decentralized timestamping solutions, Proof of Existence
 creates a Bitcoin transaction for each hash submitted by the user.
 Moreover, each certification costs 0.00025 BTC. These limitations make
-it impractical and expensive for timestamping large volume of data. Both
-OriginStamp and Chainpoint, instead of creating a transaction for each
-submitted hash, concatenates the submitted hashes over a period and
+it impractical and expensive for timestamping a large volume of data.
+Both OriginStamp and Chainpoint, instead of creating a transaction for
+each submitted hash, concatenates the submitted hashes over a period and
 creates a single transaction with the aggregated hash. Thus they
 overcome the limitations of Proof of Existence and provide a scalable
 protocol which can handle large volumes of data.
@@ -169,10 +201,10 @@ Storage[]{label="fig:comparison-storage"}](comparison-storage.png){#fig:comparis
 width="\linewidth"}
 
 Comparing the decentralized storage systems, both Sia and Storj provide
-an encrypted data storage; however current implementations do not allow
-for file sharing. Moreover, both require platform specific crypto tokens
-to access the network. IPFS, on the other hand, does not encrypt files
-by default. Files on the IPFS network are accessed by their hashes; thus
+encrypted data storage; however current implementations do not allow for
+file sharing. Moreover, both require platform specific crypto tokens to
+access the network. IPFS, on the other hand, does not encrypt files by
+default. Files on the IPFS network are accessed by their hashes; thus
 anyone who knows the file's hash can access the file. There are no
 storage contracts involved for storing files on the network. IPFS
 network does not require any crypto token for the users to access the
@@ -180,7 +212,7 @@ network.
 
 Looking at the limitations of the existing solutions, we propose a
 solution for secure information exchange with blockchains using smart
-contracts, immutable timestamping and decentralized storage.
+contracts, permanent timestamping and decentralized storage.
 
 For timestamping both OriginStamp and Chainpoint can be used as they can
 handle large volumes of data and provide a rich set of APIs for
@@ -193,7 +225,8 @@ use the Ethereum smart contracts.
 Implementation
 ==============
 
-This section describes the workings of the application.
+This section describes the workings of the different components of the
+*dShare* application.
 
 Smart Contract
 --------------
@@ -201,9 +234,9 @@ Smart Contract
 The smart contract serves as the bridge between the front-end of the
 application and the Ethereum Blockchain. Data is read from and written
 to the blockchain with the help of function calls in the contract. Each
-function call which modifies some data requires a small fees in the form
-of gas which defines the cost for a function execution in Ether. Reading
-from the blockchain does not require any fees.
+function call which modifies some data requires a small fee in the form
+of gas[^8] which defines the cost for a function execution in Ether.
+Reading from the blockchain does not require any fees.
 
 *dShare* makes use of two contracts, *FileFactory*, which acts as the
 factory contract for creation of new files and *File*, which represents
@@ -317,9 +350,9 @@ visualizes the working of the application when a user uploads a file.
 *dShare*[]{label="fig:upload"}](upload.png){#fig:upload
 width="\linewidth"}
 
-As soon as a user submits a file to be uploaded, it's sha-256 hash is
-calculated and a timestamp is created by submitting the hash to the
-bitcoin blockchain using the OriginStamp API.
+As soon as a user submits a file to be uploaded, it's SHA-256[^9] hash
+is calculated and a timestamp is created by submitting the hash to the
+bitcoin blockchain using the OriginStamp API[^10].
 
 ``` {.js}
 // get the sha256 hash of file
@@ -334,8 +367,8 @@ try {
 }
 ```
 
-Next, the file is encrypted using the SubtleCrypto[^6] interface with
-'AES-GCM' as the encrypting algorithm. The encrypted data is then
+Next, the file is encrypted using the SubtleCrypto[^11] interface with
+'AES-GCM'[^12] as the encrypting algorithm. The encrypted data is then
 combined with the random salt to generate a `Uint8Array` buffer ready to
 be uploaded to the IPFS network.
 
@@ -431,7 +464,7 @@ user shares a file with another user.
 *dShare*[]{label="fig:share"}](share.png){#fig:share width="\linewidth"}
 
 Firstly, the file's IPFS location is retrieved from the `File` contract.
-From this location, the encrypted is download and decrypted using
+From this location, the encrypted key is download and decrypted using
 uploader's private key.
 
 ``` {.js}
@@ -462,8 +495,8 @@ try {
   }
 ```
 
-Once decrypted, the key is again encrypted using recipient's public key.
-The new encryted key is again uploaded to the IPFS network.
+Once decrypted, the key is again encrypted using a recipient's public
+key. The new encrypted key is again uploaded to the IPFS network.
 
 ``` {.js}
 // Encrypt the file key using recipient's public key
@@ -510,7 +543,7 @@ File Download
 -------------
 
 Downloading a file requires the user's Ethereum private key. Depending
-on whether the file is a uploaded or shared one, respective function
+on whether the file is uploaded or shared one, corresponding function
 from the `File` contract is called to retrieve the file's details.
 
 ``` {.js}
@@ -535,7 +568,7 @@ await ipfs.files.cat(this.state.keyIpfsPath, (err, file) => {
 ```
 
 The key is then decrypted using user's private key and is converted to a
-valid JSON web key (jwk)[^7] format.
+valid JSON web key (jwk)[^13] format.
 
 ``` {.js}
 /** Decrypt the key using user's private key */
@@ -561,7 +594,7 @@ const key = await window.crypto.subtle.importKey(
 );
 ```
 
-The encrypted file data is then converted to a file buffer and the
+The encrypted file data is then converted to a file buffer, and the
 original file content and the random salt used for encrypting the file
 is retrieved.
 
@@ -605,10 +638,10 @@ File Archiving
 
 Instead of deleting a `File` contract, *dShare* provides a way to
 achieve files. This is also useful to keep track of archived files and
-restore them at a later date, if required.
+restore them at a later date if required.
 
-When a file is archived, the `File` contract address is saved in array
-which is later used for filtering the archived files from the UI.
+When a file is archived, the `File` contract address is saved in an
+array which is later used for filtering the archived files from the UI.
 
 Restoring a file removes the `File` contract address from the archived
 files array.
@@ -641,19 +674,62 @@ function removeByIndex(uint _index, address[] storage _array) internal {
 Results
 =======
 
+Blockchain and P2P technologies enable us to build a file sharing system
+that is both secure and decentralized. This distributes trust across the
+system and eliminates the single point of failure risk as seen in
+central services.
+
+This report presents the workings of *dShare*; a secure file sharing
+application built using decentralized technologies such as Bitcoin,
+Ethereum and IPFS.
+
 Future Work
 ===========
 
-[^1]: <https://poex.io/>
+Blockchain technology is still in its infancy. Most of the technologies
+used in this project are in alpha stage and therefore has quite a few
+bugs. *dShare's* sharing logic is built using Ethereum smart contracts
+which have scaling issues are quite expensive to use at the moment.
+Therefore, for future work, I want to explore other P2P technologies
+which can make the existing implementation of the application more
+scalable and inexpensive to use.
 
-[^2]: <https://poex.io/prove>
+Latest Blockchain and P2P protocols such as Blockstack[^14] and
+uPort[^15] for decentralized identity management, 3Box[^16] for
+app-specific data store and OrbitDB[^17] for P2P databases can enhance
+the functionalities of *dShare* and make it more scalable and
+inexpensive.
 
-[^3]: <https://originstamp.org/>
+[^1]: <https://www-01.ibm.com/common/ssi/cgi-bin/ssialias?htmlfid=XI912347USEN>
 
-[^4]: <https://chainpoint.org/>
+[^2]: <https://poex.io/>
 
-[^5]: <https://tierion.com/>
+[^3]: <https://poex.io/prove>
 
-[^6]: <https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto>
+[^4]: <https://originstamp.org/>
 
-[^7]: <https://tools.ietf.org/html/rfc7517>
+[^5]: <https://chainpoint.org/>
+
+[^6]: <https://tierion.com/>
+
+[^7]: <https://theethereum.wiki/w/index.php/ERC20_Token_Standard>
+
+[^8]: <https://ethereum.stackexchange.com/questions/3/what-is-meant-by-the-term-gas>
+
+[^9]: <https://www.movable-type.co.uk/scripts/sha256.html>
+
+[^10]: <http://doc.originstamp.org/>
+
+[^11]: <https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto>
+
+[^12]: <https://en.wikipedia.org/wiki/Galois/Counter_Mode>
+
+[^13]: <https://tools.ietf.org/html/rfc7517>
+
+[^14]: <https://blockstack.org/>
+
+[^15]: <https://www.uport.me/>
+
+[^16]: <https://3box.io/>
+
+[^17]: <https://github.com/orbitdb/orbit-db>
