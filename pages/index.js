@@ -122,10 +122,36 @@ class Index extends Component {
             <Grid.Column>
               <Segment.Group>
                 <Segment textAlign="center" size="big">
+                  <p>Smart Contract Workflow for File Creation</p>
+                </Segment>
+                <Segment>
+                  <Image src="/static/createFile.png" centered />
+                </Segment>
+              </Segment.Group>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Segment.Group>
+                <Segment textAlign="center" size="big">
                   <p>File Sharing</p>
                 </Segment>
                 <Segment>
                   <Image src="/static/share.png" centered />
+                </Segment>
+              </Segment.Group>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Segment.Group>
+                <Segment textAlign="center" size="big">
+                  <p>Smart Contract Workflow for File Sharing</p>
+                </Segment>
+                <Segment>
+                  <Image src="/static/shareFile.png" centered />
                 </Segment>
               </Segment.Group>
             </Grid.Column>

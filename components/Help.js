@@ -41,6 +41,7 @@ class Help extends Component {
           <Segment basic size="big">
             <p>
               This page shows the files which you have shared with other users.
+              Click on any file to view it's details.
             </p>
           </Segment>
         );
@@ -49,7 +50,7 @@ class Help extends Component {
       case "/archivedFiles":
         content = (
           <Segment basic size="big">
-            <p>This page shows the archived files.</p>
+            <p>This page shows the list of files archived by you.</p>
           </Segment>
         );
         break;
@@ -76,7 +77,16 @@ class Help extends Component {
       case "/view":
         content = (
           <Segment basic size="big">
-            <p>This page shows all the details for a file.</p>
+            <p>This page list all the details for a file.</p>
+            <p>
+              Here you can share the file by providing the recipient's Ethereum
+              address. You also need to provide your Ethereum private key to
+              decrypt the file's key
+            </p>
+            <p>
+              File can be downloaded by providing your Ethereum private key,
+              which is used to decrypt the key.
+            </p>
           </Segment>
         );
         break;
