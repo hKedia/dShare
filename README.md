@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/148343203.svg)](https://zenodo.org/badge/latestdoi/148343203)
+
 ## Local Setup
 
 ### Downloading dependencies
