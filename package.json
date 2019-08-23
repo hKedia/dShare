@@ -34,7 +34,7 @@
     "mocha": "^5.2.0",
     "next": "^7.0.2",
     "nprogress": "^0.2.0",
-    "openpgp": "^4.2.1",
+    "openpgp": "^4.3.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-toastify": "^4.4.3",
