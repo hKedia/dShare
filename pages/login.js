@@ -17,7 +17,7 @@ class Login extends Component {
 
   /** Preventing page reload when network is changed in metamask */
   componentDidMount() {
-    window.onbeforeunload = function(e) {
+    window.onbeforeunload = function (e) {
       var dialogText = "Screw the MetaMask";
       e.returnValue = dialogText;
       return dialogText;
@@ -103,7 +103,7 @@ class Login extends Component {
         <Grid style={{ marginTop: "0" }}>
           <Grid.Row>
             <Grid.Column>
-              <Segment>Login/Signup to Continue</Segment>
+              <Segment>Click to Continue</Segment>
             </Grid.Column>
           </Grid.Row>
 

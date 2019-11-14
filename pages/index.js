@@ -26,7 +26,7 @@ class Index extends Component {
             <Grid.Column width={10}>
               <Segment textAlign="center">
                 <Header as="h4">
-                  Welcome to dShare - A decentralized file sharing application
+                  Welcome to dShare - Ethereum
                 </Header>
               </Segment>
             </Grid.Column>
@@ -50,6 +50,19 @@ class Index extends Component {
             <Grid.Column>
               <Segment.Group>
                 <Segment textAlign="center" size="big">
+                  <p>App Architecture</p>
+                </Segment>
+                <Segment>
+                  <Image src="/static/architecture.png" centered />
+                </Segment>
+              </Segment.Group>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Segment.Group>
+                <Segment textAlign="center" size="big">
                   <p>File Upload</p>
                 </Segment>
                 <Segment>
@@ -63,95 +76,10 @@ class Index extends Component {
             <Grid.Column>
               <Segment.Group>
                 <Segment textAlign="center" size="big">
-                  <p>
-                    This Application combines below technologies to enable a
-                    secure information exchange using Blockchain
-                  </p>
-                </Segment>
-                <Segment.Group horizontal>
-                  <Segment textAlign="center">
-                    <Image.Group size="tiny">
-                      <Image
-                        src="/static/originstamp-icon.png"
-                        spaced
-                        href="https://originstamp.org/home"
-                      />
-                      <Image
-                        src="/static/bitcoin-icon.png"
-                        spaced
-                        href="https://bitcoin.org/en/"
-                      />
-                    </Image.Group>
-                    <p>
-                      OriginStamp: Creates Immutable timestamps by submitted the
-                      hash of uploaded file to the bitcoin blockchain
-                    </p>
-                  </Segment>
-                  <Segment textAlign="center">
-                    <Image
-                      src="/static/ethereum-icon.png"
-                      size="tiny"
-                      centered
-                      spaced
-                      href="https://www.ethereum.org/"
-                    />
-                    <p>
-                      Ethereum: Smart Contract for exchanging encrypted document
-                      keys
-                    </p>
-                  </Segment>
-                  <Segment textAlign="center">
-                    <Image
-                      src="/static/ipfs-icon.png"
-                      size="tiny"
-                      centered
-                      spaced
-                      href="https://ipfs.io/"
-                    />
-                    <p>
-                      IPFS: P2P storage where encrypted files and their keys are
-                      uploaded
-                    </p>
-                  </Segment>
-                </Segment.Group>
-              </Segment.Group>
-            </Grid.Column>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Column>
-              <Segment.Group>
-                <Segment textAlign="center" size="big">
-                  <p>Smart Contract Workflow for File Creation</p>
-                </Segment>
-                <Segment>
-                  <Image src="/static/createFile.png" centered />
-                </Segment>
-              </Segment.Group>
-            </Grid.Column>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Column>
-              <Segment.Group>
-                <Segment textAlign="center" size="big">
                   <p>File Sharing</p>
                 </Segment>
                 <Segment>
                   <Image src="/static/share.png" centered />
-                </Segment>
-              </Segment.Group>
-            </Grid.Column>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Column>
-              <Segment.Group>
-                <Segment textAlign="center" size="big">
-                  <p>Smart Contract Workflow for File Sharing</p>
-                </Segment>
-                <Segment>
-                  <Image src="/static/shareFile.png" centered />
                 </Segment>
               </Segment.Group>
             </Grid.Column>
