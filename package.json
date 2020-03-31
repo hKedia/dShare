@@ -32,7 +32,7 @@
     "ipfs-api": "^24.0.2",
     "isomorphic-unfetch": "^3.0.0",
     "mocha": "^5.2.0",
-    "next": "^7.0.2",
+    "next": "^9.3.2",
     "nprogress": "^0.2.0",
     "openpgp": "^4.2.1",
     "react": "^16.6.3",
